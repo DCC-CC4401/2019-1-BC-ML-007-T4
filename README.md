@@ -8,3 +8,4 @@ A repo for the webpage group project of Universidad de Chile's CC4401 course: So
 * [Diego Ortego](https://github.com/Gedoix)
 * [Luis Pinochet](https://github.com/shenkok)
 * [Bryan Riveros](https://github.com/BryanRrs)
+* [Valeria Valdés](https://github.com/valeriavaldes)
