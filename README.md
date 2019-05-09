@@ -24,7 +24,7 @@ Installing a new `Python 3.7` virtual environment is highly recommended, you can
 
 ~~~{bash}
 cd 2019-1-BC-ML-007-T4
-pyhon3 -m venv venv
+python3 -m venv venv
 ~~~
 
 Then activate the virtual environment with:
