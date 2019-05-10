@@ -282,3 +282,4 @@ fabric.properties
 # --------------------------------------
 
 src/db.sqlite3
+src/**/migrations
