@@ -39,6 +39,9 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     # Custom:
     'users.apps.UsersConfig',
+    'courses',
+    'evaluations',
+    'rubrics',
 ]
 
 AUTH_USER_MODEL = 'users.BaseUser'
