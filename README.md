@@ -46,14 +46,26 @@ To run the server, run:
 
 ~~~{bash}
 cd src
-python3 manage.py makemigrations users
-python3 manage.py migrate
-python3 manage.py makemigrations
-python3 manage.py migrate
+bash auto-migrate.sh
 python3 manage.py runserver
 ~~~
 
 Then, simply access the `url` the server prints to the terminal in your browser of choice.
+
+## Resetting the Server
+
+To clean the database run:
+
+~~~{bash}
+bash auto-delete_migrations.sh
+bash auto-migrate.sh
+~~~
+
+And then tu run the server again:
+
+~~~{bash}
+python3 manage.py runserver
+~~~
 
 ## Group Members
 
