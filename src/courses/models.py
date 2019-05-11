@@ -5,7 +5,7 @@ from django.core.validators import MaxValueValidator, MinValueValidator, RegexVa
 
 class Course(models.Model):
     
-    owner = models.ForeignKey("users.BaseUser", on_delete=models.CASCADE)
+    owner = models.ForeignKey("users.BaseUser", on_delete=models.SET_NULL)
     code = models.CharField(max_length=7, validators=[
         RegexValidator(regex=r'^[A-Z]{1,2}[0-9]{1,4}[A-Z]{0,1}$')
     ])
