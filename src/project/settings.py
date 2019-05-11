@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'courses',
     'evaluations',
     'rubrics',
+    'presentations',
 ]
 
 AUTH_USER_MODEL = 'users.BaseUser'
