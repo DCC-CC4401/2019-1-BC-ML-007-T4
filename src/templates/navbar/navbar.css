@@ -1,0 +1,23 @@
+.navbar-base
+{
+    z-index:        3;
+    width:          300px;
+    font-weight:    bold;
+}
+
+.navbar-link
+{
+    width:          100%;
+    font-size:      22px;
+}
+
+.navbar-avatar
+{
+    height:         200px;
+    width:          200px;
+}
+
+.navbar-mobile-overlay
+{
+    cursor:         pointer;
+}

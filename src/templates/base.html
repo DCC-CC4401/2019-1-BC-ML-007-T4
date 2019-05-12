@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="../../include/bootstrap-4.3.1-dist/css/bootstrap.css">
+
+    <!-- W3School CSS -->
+    <link rel="stylesheet" href="../../include/W3School/w3.css">
+
+    <!-- Navbar CSS -->
+    <link rel="stylesheet" href="navbar/navbar.css">
+
+    <!-- Base CSS -->
+    <link rel="stylesheet" href="base.css">
+
+    {% block stylesheets %}
+
+    {% endblock stylesheets %}
+
+</head>
+<body>
+
+    {% include "navbar/navbar.html" %}
+
+    <!-- !PAGE CONTENT! -->
+    <div class="w3-main base-content-container">
+
+        {% block content %}
+
+        {% endblock content %}
+
+    </div>
+
+    <!-- Bootstrap's Javascript Dependencies -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="../../include/jquery-3.3.1/jquery-3.3.1.js"></script>
+    <script src="../../include/popper-v1/popper.js"></script>
+    <script src="../../include/bootstrap-4.3.1-dist/js/bootstrap.js"></script>
+
+    <!-- Fontawesome's Javascript Dependencies-->
+    <script src="../../include/fontawesome-free-5.8.1-web/js/all.js"></script>
+
+    <!-- Navbar Javascript -->
+    <script src="navbar/navbar.js"></script>
+
+    <!-- Base Javascript -->
+    <script src="base.js"></script>
+
+    {% block javascript %}
+
+    {% endblock javascript %}
+
+</body>
