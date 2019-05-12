@@ -1,9 +1,11 @@
 {% extends 'base.html' %}
 
+{% load static %}
+
 {% block stylesheets %}
 
     <!-- Landing Page CSS -->
-    <link rel="stylesheet" href="landing_page.css">
+    <link rel="stylesheet" href={% static 'users/landing_page.css' %}>
 
 {% endblock stylesheets %}
 
