@@ -1,20 +1,26 @@
 <!DOCTYPE html>
 <html lang="es">
+
+{% load static %}
+
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
+    <!-- Google Poppin Font -->
+    <link rel="stylesheet" href={% static 'Poppins-Google-Font/poppins.css' %}>
+
     <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="../../include/bootstrap-4.3.1-dist/css/bootstrap.css">
+    <link rel="stylesheet" href={% static 'bootstrap-4.3.1-dist/css/bootstrap.css' %}>
 
     <!-- W3School CSS -->
-    <link rel="stylesheet" href="../../include/W3School/w3.css">
-
-    <!-- Navbar CSS -->
-    <link rel="stylesheet" href="navbar/navbar.css">
+    <link rel="stylesheet" href={% static 'W3School/w3.css' %}>
 
     <!-- Base CSS -->
-    <link rel="stylesheet" href="base.css">
+    <link rel="stylesheet" href={% static 'base.css' %}>
+
+    <!-- Navbar CSS -->
+    <link rel="stylesheet" href={% static 'navbar/navbar.css' %}>
 
     {% block stylesheets %}
 
@@ -36,18 +42,18 @@
 
     <!-- Bootstrap's Javascript Dependencies -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script src="../../include/jquery-3.3.1/jquery-3.3.1.js"></script>
-    <script src="../../include/popper-v1/popper.js"></script>
-    <script src="../../include/bootstrap-4.3.1-dist/js/bootstrap.js"></script>
+    <script src={% static 'jquery-3.3.1/jquery-3.3.1.js' %}></script>
+    <script src={% static 'popper-v1/popper.js' %}></script>
+    <script src={% static 'bootstrap-4.3.1-dist/js/bootstrap.js' %}></script>
 
     <!-- Fontawesome's Javascript Dependencies-->
-    <script src="../../include/fontawesome-free-5.8.1-web/js/all.js"></script>
-
-    <!-- Navbar Javascript -->
-    <script src="navbar/navbar.js"></script>
+    <script src={% static 'fontawesome-free-5.8.1-web/js/all.js' %}></script>
 
     <!-- Base Javascript -->
-    <script src="base.js"></script>
+    <script src={% static 'base.js' %}></script>
+
+    <!-- Navbar Javascript -->
+    <script src={% static 'navbar/navbar.js' %}></script>
 
     {% block javascript %}
 

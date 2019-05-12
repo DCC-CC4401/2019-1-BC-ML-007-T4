@@ -1,9 +1,11 @@
+{% load static %}
+
 <!-- Sidebar/menu -->
 <nav class="w3-sidebar w3-red w3-collapse w3-top w3-large w3-padding navbar-base" id="mySidebar"><br>
   <a href="javascript:void(0)" onclick="w3_close()" class="w3-button w3-hide-large w3-display-topleft navbar-link">Close Menu</a>
     <!--Profile image -->
   <div class="w3-container">
-      <p class="w3-center"><img src="../../../include/W3School/images/avatar3.png" class="w3-circle navbar-avatar" alt="Avatar"></p>
+      <p class="w3-center"><img src={% static 'W3School/images/avatar3.png' %} class="w3-circle navbar-avatar" alt="Avatar"></p>
     <h3 class="w3-padding-64"><center><b>Usuario</b></center></h3>
   </div>
   <div class="w3-bar-block">
