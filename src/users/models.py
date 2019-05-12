@@ -5,7 +5,5 @@ from django.contrib.auth.models import AbstractUser
 
 class BaseUser(AbstractUser):
 
-    is_administrator = False
-
     def __str__(self):
         return self.email
