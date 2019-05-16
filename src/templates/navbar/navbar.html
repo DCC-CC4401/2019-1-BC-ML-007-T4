@@ -1,11 +1,10 @@
 {% load static %}
 
-{% url '' as homepage_url %}
-{% url '/cursos'  as courses_url %}
-{% url '/evalualuadores' as evaluators_url %}
-{% url '/rubricas/' as rubrics_url %}
-{% url '/evaluaciones/' as evaluations_url %}
-{% url '/contacto/' as contact_url %}
+{% url 'Landing Page' as homepage_url %}
+{% url 'Courses Page'  as courses_url %}
+{% url 'Evaluators Page' as evaluators_url %}
+{% url 'Rubrics Page' as rubrics_url %}
+{% url 'Evaluations Page' as evaluations_url %}
 
 <!-- Sidebar/menu -->
 <nav class="w3-sidebar w3-red w3-collapse w3-top w3-large w3-padding navbar-base" id="mySidebar"><br>
@@ -21,7 +20,6 @@
     <a href="{{ evaluators_url }}" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-white">Evaluadores</a>
     <a href="{{ rubrics_url }}" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-white">Rúbricas</a>
     <a href="{{ evaluations_url }}" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-white">Evaluaciones</a>
-    <a href="{{ contact_url }}" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-white">Contact</a>
   </div>
 </nav>
 
