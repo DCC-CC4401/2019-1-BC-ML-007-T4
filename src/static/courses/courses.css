@@ -1,0 +1,33 @@
+.courses-welcome-message-container
+{
+    margin-top:     80px;
+    margin-bottom:  10px;
+}
+
+.courses-course-card
+{
+    max-height:     380px;
+    min-height:     317px;
+}
+
+.courses-add-card
+{
+    min-height:     317px;
+}
+
+.courses-book-icon
+{
+    font-size:      100px;
+}
+
+.courses-add-icon
+{
+    font-size:      100px;
+    text-align:     center;
+    padding:        50px;
+}
+
+.courses-add-popup-card
+{
+    max-width:      600px;
+}

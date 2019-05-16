@@ -1,0 +1,136 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block title %}
+
+  <title>
+    Sistema de Evaluación: Cursos
+  </title>
+
+{% endblock title %}
+
+{% block stylesheets %}
+
+  <!-- Courses CSS -->
+  <link rel="stylesheet" href={% static 'courses/courses.css' %}>
+
+{% endblock stylesheets %}
+
+{% block content %}
+
+<!-- Welcome Message -->
+  <div class="w3-container courses-welcome-message-container" id="portada">
+    <h1 class="w3-xxxlarge w3-text-red">
+      <b>
+        Cursos
+      </b>
+    </h1>
+    <hr class="w3-round base-horizontal-rule">
+    <p>
+      <h3>
+        Seleccione un curso
+      </p>
+    </h2>
+  </div>
+
+  <!--Course Card-->
+  <div class="w3-row-padding w3-center w3-margin-top">
+    
+    <div class="w3-quarter w3-margin-top">
+      <button onclick="document.getElementById('gestionar').style.display='block'" class="w3-card w3-container w3-hover-shadow w3-light-gray courses-course-card">
+        <h3>
+          Nombre de curso
+        </h3>
+        <br>
+        <i class="fas fa-book courses-book-icon"></i>
+        <p>
+          Código
+        </p>
+        <p>
+          Sección
+        </p>
+        <p>
+          Semestre y año
+        </p>
+        <button class="w3-btn w3-red">
+          Modificar
+        </button>
+        <button class="w3-btn w3-red">
+          Eliminar
+        </button>
+      </button>
+    </div>
+
+    <!--Add Course Card -->
+    <div class="w3-quarter w3-margin-top">
+      <button onclick="document.getElementById('agregar').style.display='block'" class="w3-card w3-container w3-light-gray w3-hover-shadow courses-add-card">
+        <h3>
+          Agregar curso nuevo
+        </h3>
+        <br>
+        <i class="fas fa-plus courses-add-icon"></i>
+      </button>
+    </div>
+
+    <!-- Add Course Popup -->
+    <div id="agregar" class="w3-modal">
+      <div class="w3-modal-content w3-card-4 w3-animate-zoom courses-add-popup-card">
+        <div class="w3-center">
+          <br>
+          <span onclick="document.getElementById('agregar').style.display='none'" class="w3-button w3-xlarge w3-transparent w3-display-topright" title="Close Modal">
+            ×
+          </span>
+          <form class="w3-container" action="/action_page.php">
+            <div class="w3-section">
+              <label>
+                <b>
+                  Curso
+                </b>
+              </label>
+              <input class="w3-input w3-border w3-margin-bottom" type="text" placeholder="Ingrese nombre del curso" name="usrname" required>
+              <label>
+                <b>
+                  Código
+                </b>
+              </label>
+              <input class="w3-input w3-border" type="text" placeholder="Ingrese código del curso" name="psw" required>
+              <label>
+                <b>
+                  Sección
+                </b>
+              </label>
+              <input class="w3-input w3-border" type="text" placeholder="Ingrese número de sección" name="secc" required>
+              <label>
+                <b>
+                  Año
+                </b>
+              </label>
+              <input class="w3-input w3-border" type="text" placeholder="Ingrese año" name="year" required>
+              <label>
+                <b>
+                  Semestre
+                </b>
+              </label>
+              <div class="semester">
+                <select id="semester" name="semester">
+                  <option value="priv">
+                    Primavera
+                  </option>
+                  <option value="oto">
+                    Otoño
+                  </option>
+                </select>
+              </div>
+              <button class="w3-button w3-block w3-red w3-section w3-padding" type="submit">
+                Agregar
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+{% endblock content %}

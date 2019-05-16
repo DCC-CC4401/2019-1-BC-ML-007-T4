@@ -17,8 +17,10 @@ from django.contrib import admin
 from django.urls import path
 
 from users.views import landing_page
+from courses.views import courses_page
 
 urlpatterns = [
     path('', landing_page, name="Landing Page"),
+    path('cursos/', courses_page, name="Courses Page"),
     path('admin/', admin.site.urls),
 ]
