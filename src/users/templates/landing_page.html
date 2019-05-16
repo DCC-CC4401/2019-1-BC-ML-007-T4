@@ -4,54 +4,76 @@
 
 {% block title %}
 
-<title>Sistema de Evaluación: Bienvenida</title>
+	<title>
+		Sistema de Evaluación: Bienvenida
+	</title>
 
 {% endblock title %}
 
 {% block stylesheets %}
 
-<!-- Landing Page CSS -->
-<link rel="stylesheet" href={% static 'users/landing_page.css' %}>
+	<!-- Landing Page CSS -->
+	<link rel="stylesheet" href={% static 'users/landing_page.css' %}>
 
 {% endblock stylesheets %}
 
 {% block content %}
 
-<!-- Portada -->
-<div class="w3-container landing-welcome-message-container" id="portada">
-    <h1 class="w3-xxxlarge w3-text-red"><b>
-        Bienvenido al sistema de evaluación
-    </b></h1>
-    <hr class="w3-round base-horizontal-rule">
-    <p><h3>
-        Seleccione alguna sección para comenzar
-    </p></h2>
-    <i class="far fa-arrow-alt-circle-left landing-welcome-arrow"></i>
-</div>
+	<!-- Portada -->
+	<div class="w3-container landing-welcome-message-container" id="portada">
+		<h1 class="w3-xxxlarge w3-text-red">
+			<b>
+				Bienvenido al sistema de evaluación
+			</b>
+		</h1>
+		<hr class="w3-round base-horizontal-rule">
+		<p>
+			<h3>
+				Seleccione alguna sección para comenzar
+			</p>
+		</h2>
+		<i class="far fa-arrow-alt-circle-left landing-welcome-arrow"></i>
+	</div>
 
-<!-- Contact Container -->
-<div class="w3-light-grey w3-container w3-padding-16 landing-bottom-container">
-    <div class="bottom landing-contact-container" id="contact">
-        <h1 class="w3-xxlarge w3-text-red"><b>Contacto.</b></h1>
-        <hr class="w3-round base-horizontal-rule">
-        <p>¿Dudas? ¿Sugerencias? ¿Reclamos?</p>
-        <p>No dude en contactarnos</p>
-        <form action="/action_page.php" target="_blank">
-            <div class="w3-section">
-                <label>Nombre</label>
-                <input class="w3-input w3-border" type="text" name="Name" required>
-            </div>
-            <div class="w3-section">
-                <label>Email</label>
-                <input class="w3-input w3-border" type="text" name="Email" required>
-            </div>
-            <div class="w3-section">
-                <label>Mensaje</label>
-                <input class="w3-input w3-border" type="text" name="Message" required>
-            </div>
-            <button type="submit" class="w3-button w3-red w3-margin-bottom">Enviar</button>
-        </form>
-    </div>
-</div>
+	<!-- Contact Container -->
+	<div class="w3-light-grey w3-container w3-padding-16 landing-bottom-container">
+		<div class="bottom landing-contact-container" id="contact">
+			<h1 class="w3-xxlarge w3-text-red">
+				<b>
+					Contacto.
+				</b>
+			</h1>
+			<hr class="w3-round base-horizontal-rule">
+			<p>
+				¿Dudas? ¿Sugerencias? ¿Reclamos?
+			</p>
+			<p>
+				No dude en contactarnos
+			</p>
+			<form action="/action_page.php" target="_blank">
+				<div class="w3-section">
+					<label>
+						Nombre
+					</label>
+					<input class="w3-input w3-border" type="text" name="Name" required>
+				</div>
+				<div class="w3-section">
+					<label>
+						Email
+					</label>
+					<input class="w3-input w3-border" type="text" name="Email" required>
+				</div>
+				<div class="w3-section">
+					<label>
+						Mensaje
+					</label>
+					<input class="w3-input w3-border" type="text" name="Message" required>
+				</div>
+				<button type="submit" class="w3-button w3-red w3-margin-bottom">
+					Enviar
+				</button>
+			</form>
+		</div>
+	</div>
 
 {% endblock content %}
