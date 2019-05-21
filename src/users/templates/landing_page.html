@@ -27,12 +27,35 @@
 			</b>
 		</h1>
 		<hr class="w3-round base-horizontal-rule">
+	
+		{%for rubric in my_rubrics%}
 		<p>
-			<h3>
-				Seleccione alguna sección para comenzar
-			</p>
+		<div class="w3-threequarter w3-margin-top">
+			<button  class="w3-button w3-block w3-khaki" style="width:70%">
+			  <h3>
+				{{rubric.table|title}}
+			  </h3>
+			  <br>
+			  
+			  {%if rubric.status%}
+			  <p style="color: green;">
+				Abierta
+			  </p>
+			  {%else%}
+			  <p style="color: red">
+				Cerrada
+			  </p>
+			  {%endif%}
+			  <button class="w3-btn w3-red">
+				Modificar
+			  </button>
+			</button>
+		  </div>
+		</p>
+		{%endfor%}
+		
 		</h2>
-		<i class="far fa-arrow-alt-circle-left landing-welcome-arrow"></i>
+		
 	</div>
 
 {% endblock content %}
