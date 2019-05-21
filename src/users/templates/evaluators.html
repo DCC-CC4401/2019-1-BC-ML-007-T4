@@ -13,21 +13,27 @@
 {% block stylesheets %}
 
   <!-- Evaluators CSS -->
+  <link rel="stylesheet" href={% static 'users/evaluators.css' %}>
 
 {% endblock stylesheets %}
 
+{% block javascript %}
+
+  <!-- Evaluators JS -->
+  <script href={% static 'users/evaluators.js' %}></script>
+
+{% endblock javascript %}
+
 {% block content %}
 
-
-
   <!-- Title -->
-  <div class="w3-container" id="portada" style="margin-top:80px; margin-bottom:10px">
+  <div class="w3-container evaluators-welcome-message-container" id="portada">
     <h1 class="w3-xxxlarge w3-text-red">
       <b>
         Evaluadores
       </b>
     </h1>
-    <hr style="width:50px;border:5px solid red" class="w3-round">
+    <hr class="w3-round base-horizontal-rule">
     <p>
       <h3>
         Seleccione un evaluador
@@ -39,12 +45,12 @@
   <div class="w3-row-padding w3-center w3-margin-top">
 
     <div class="w3-quarter w3-margin-top">
-      <button onclick="document.getElementById('gestionar').style.display='block'" class="w3-card w3-container w3-hover-shadow" style="max-height:380px;min-height: 317px; max-width: 300px">
+      <button onclick="document.getElementById('gestionar').style.display='block'" class="w3-card w3-container w3-hover-shadow evaluators-evaluator-card">
         <h3>
           Nombre y apellido
         </h3>
         <br>
-        <i class="fas fa-user-alt" style="font-size:100px"></i>
+        <i class="fas fa-user-alt evaluators-evaluator-icon"></i>
         <p>
           Correo
         </p>
@@ -52,7 +58,7 @@
     </div>
 
     <div id="gestionar" class="w3-modal">
-      <div class="w3-modal-content w3-card-4 w3-animate-zoom" style="width:300px">
+      <div class="w3-modal-content w3-card-4 w3-animate-zoom evaluators-evaluator-modal">
         <div class="w3-center">
           <br>
           <span onclick="document.getElementById('gestionar').style.display='none'" class="w3-button w3-xlarge w3-transparent w3-display-topright" title="Close Modal">
@@ -73,16 +79,17 @@
 
     <!--Caja de agregar-->
     <div class="w3-quarter w3-margin-top">
-      <button onclick="document.getElementById('agregar').style.display='block'" class="w3-card w3-container w3-light-gray w3-hover-shadow" style="min-height: 317px; max-width: 300px">
+      <button onclick="document.getElementById('agregar').style.display='block'" class="w3-card w3-container w3-light-gray w3-hover-shadow evaluators-add-card">
         <h3>
           Agregar evaluador nuevo
         </h3>
         <br>
-        <i class="fas fa-user-plus" style="font-size:80px;text-align: center; padding: 10px"></i>
+        <i class="fas fa-user-plus evaluators-add-icon"></i>
       </button>
     </div>
+
     <div id="agregar" class="w3-modal">
-      <div class="w3-modal-content w3-card-4 w3-animate-zoom" style="max-width:600px">
+      <div class="w3-modal-content w3-card-4 w3-animate-zoom evaluators-add-modal">
         <div class="w3-center">
           <br>
           <span onclick="document.getElementById('agregar').style.display='none'" class="w3-button w3-xlarge w3-transparent w3-display-topright" title="Close Modal">

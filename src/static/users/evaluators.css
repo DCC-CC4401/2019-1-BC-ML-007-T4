@@ -1,0 +1,40 @@
+.evaluators-welcome-message-container
+{
+    margin-top:80px;
+    margin-bottom:10px;
+}
+
+.evaluators-evaluator-card
+{
+    max-height:380px;
+    min-height: 317px;
+    max-width: 300px;
+}
+
+.evaluators-evaluator-icon
+{
+    font-size:100px;
+}
+
+.evaluators-evaluator-modal
+{
+    width:300px;
+}
+
+.evaluators-add-card
+{
+    min-height: 317px;
+    max-width: 300px;
+}
+
+.evaluators-add-icon
+{
+    font-size:80px;
+    text-align: center;
+    padding: 10px;
+}
+
+.evaluators-add-modal
+{
+    max-width:600px;
+}
