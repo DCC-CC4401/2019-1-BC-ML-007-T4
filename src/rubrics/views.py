@@ -36,7 +36,7 @@ class RubricaView(View):
 					'nlogro_forms': nlogro_forms,
 					'name_form' : name_form,
 					'rubrica_id' : rubrica_id}
-		return render(request, 'rubric_editor.html', context)
+		return render(request, 'rubrics/rubric_editor.html', context)
 
 	def post(self, request, rubrica_id):
 		nlogros = np.array(request.POST.getlist('nlogro'))
