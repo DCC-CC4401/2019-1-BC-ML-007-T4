@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="es">
+
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'rubrics/style.css' %}">
+
+<head>
+    <meta charset="utf-8">
+
+    {% block stylesheets %}
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <!-- W3School CSS -->
+    <link rel="stylesheet" href="{% static 'W3School/w3.css' %}">
+    
+    <!-- Google Poppin Font -->
+    <link rel="stylesheet" href="{% static 'Poppins-Google-Font/poppins.css' %}">
+
+    <!-- Fontawesome CSS -->
+    <link rel="stylesheet" href="{% static 'fontawesome-free-5.8.1-web/css/all.css' %}">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="{% static 'bootstrap-4.3.1-dist/css/bootstrap.css' %}">
+
+    <!-- Base CSS -->
+    <link rel="stylesheet" href="{% static 'base.css' %}">
+
+    <!-- Navbar CSS -->
+    <link rel="stylesheet" href="{% static 'navbar/navbar.css' %}">
+
+    {% endblock stylesheets %}
+
+</head>
+<body>
+
+    {% include "navbar/navbar.html" %}
+
+    <!-- !PAGE CONTENT! -->
+
+
+        {% block content %}
+
+    	<div class="w3-main" style="margin-left:340px;margin-right: 80px">
+
+
+    		 <h1 class="w3-xxxlarge w3-text-red" style="margin: 2%;"><b>Ficha de rúbrica</b></h1>
+
+    		<div class="w3-row-padding w3-container">
+        		<button type="button" class="button2"> Rubrica {{ rubrica_id }}  <i class="fas fa-edit"></i></button><br>
+    		</div>
+
+    		<form method="POST" action=".">
+    			{% for hidden_field in form.hidden_fields %}
+    			   {{ hidden_field.errors }}
+    			   {{ hidden_field }}
+    			 {% endfor %}
+	        <div class="w3-content table-responsive">
+	        	<table>
+	        	<tr>
+	        	<th> Criterio </th>
+	        	{% for nivel_logro in form.get_nlogro %}
+	        	<th>
+	        	<div class="editable-text"> {{ nivel_logro.label}}</div>
+	        	<div class="edit-text" style="display: none;">
+	        		<div class="w3-content">{{ nivel_logro.errors }}{{nivel_logro}} </div>
+	        		<div class="w3-row" >
+	        			<div class="w3-half"> <button type="button" class="btn btn-accept"><i class="fas fa-check"> </i></button> </div>
+	        			<div class="w3-half"> <button type="button" class="btn btn-cancel"><i class="fas fa-times"></i></button> </div>
+	        		</div>
+	        	</div> 
+	        	</div>
+	        	  </th>
+	        	{% endfor %}
+	        	<td><button type="button" id="btn-add-col" class="btn"><i class="fas fa-plus"></i></button> </td>
+	        	</tr>
+	        	{% for row in form.get_rows %}
+	        	    <tr>
+	        	    	{% for entry in row%}
+	        	    	<td>
+	        	    		<div class="editable-text"> {{entry.label}}</div>
+	        	    		<div class="edit-text" style="display: none;">
+	        	    			<div class="w3-content" >{{ entry.errors }}{{entry}} </div>
+	        	    			<div class="w3-row" >
+	        	    				<div class="w3-half"> <button type="button" class="btn btn-accept"><i class="fas fa-check"> </i></button> </div>
+	        	    				<div class="w3-half"> <button type="button" class="btn btn-cancel"><i class="fas fa-times"></i></button> </div>
+	        	    			</div>
+	        	    		</div> 
+	        	    		</div>
+	        	    	</td>
+	        	    	{% endfor %}
+	        	    	<td><button type="button" class="btn"><i class="fas fa-trash-alt"></i></button> </td>
+	        	    </tr>
+	        	{% endfor %}
+
+	        	<tr> 
+			        <td><button type="button" class="btn"><i class="fas fa-plus"></i></button> </td>
+
+		        	{% for nivel_logro in form.get_nlogro %}
+			        	<td><button type="button" class="btn"><i class="fas fa-trash-alt"></i></button> </td>
+		        	{% endfor %}
+	        	</tr>
+	        	</table>
+        	</div>
+        	<input type=submit>
+        	</form>
+    	</div>
+
+        {% endblock content %}
+
+
+    <!-- Bootstrap's Javascript Dependencies -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="{% static 'jquery-3.3.1/jquery-3.3.1.js' %}"></script>
+    <script src="{% static 'popper-v1/popper.js' %}"></script>
+    <script src="{% static 'bootstrap-4.3.1-dist/js/bootstrap.js' %}"></script>
+
+    <!-- Fontawesome's Javascript Dependencies-->
+    <script src="{% static 'fontawesome-free-5.8.1-web/js/all.js' %}"></script>
+
+    <!-- Base Javascript -->
+    <script src="{% static 'base.js' %}"></script>
+
+    <!-- Navbar Javascript -->
+    <script src="{% static 'navbar/navbar.js' %}"></script>
+
+    {% block javascript %}
+    	<script src="{% static 'rubrics/jquery.js' %}"></script>
+    {% endblock javascript %}
+
+</body>
