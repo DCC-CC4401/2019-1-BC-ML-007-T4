@@ -16,10 +16,16 @@
   </div>
   <div class="w3-bar-block">
     <a href="{{ homepage_url }}" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-white">Home</a>
-    <a href="{{ courses_url }}" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-white">Cursos</a>
-    <a href="{{ evaluators_url }}" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-white">Evaluadores</a>
-    <a href="{{ rubrics_url }}" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-white">Rúbricas</a>
-    <a href="{{ evaluations_url }}" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-white">Evaluaciones</a>
+    {% if user.is_authenticated %}
+      {% if user.is_staff %}
+        <a href="{{ courses_url }}" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-white">Cursos</a>
+        <a href="{{ evaluators_url }}" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-white">Evaluadores</a>
+        <a href="{{ rubrics_url }}" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-white">Rúbricas</a>
+        <a href="{{ evaluations_url }}" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-white">Evaluaciones</a>
+      {% else %}
+      <a href="{{ evaluations_url }}" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-white">Evaluaciones</a>
+      {% endif %}
+    {% endif %}
   </div>
 </nav>
 
