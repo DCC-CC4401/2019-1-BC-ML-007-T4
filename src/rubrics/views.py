@@ -1,6 +1,10 @@
-from django.shortcuts import get_object_or_404, render
+from django.shortcuts import get_object_or_404, render, redirect
 from django.http import HttpResponseRedirect
+from django.urls import reverse_lazy
 from django.views import View
+from django.views.generic.edit import DeleteView, CreateView
+from django.contrib.messages.views import SuccessMessageMixin
+from django.contrib import messages
 
 
 from .models import Rubric
@@ -12,12 +16,10 @@ import numpy as np
 
 class RubricaView(View):
 
-	def get(self, request, rubrica_id, user_type):
+	def get(self, request, rubrica_id):
 		rubrica = get_object_or_404(Rubric, pk=rubrica_id)
 		rubrica_df = rubrica.to_df()
 		name_form = RubricNameForm({'name' : rubrica.get_name()});
-
-		print(rubrica_df)
 
 		nlogro_forms = []
 		for index, points in enumerate(rubrica_df.columns.values):
@@ -33,11 +35,10 @@ class RubricaView(View):
 		context = {	'rows_forms' : rows_forms,
 					'nlogro_forms': nlogro_forms,
 					'name_form' : name_form,
-					'rubrica_id' : rubrica_id,
-					'user_type' : user_type}
+					'rubrica_id' : rubrica_id}
 		return render(request, 'rubrics/rubrica.html', context)
 
-	def post(self, request, rubrica_id, user_type):
+	def post(self, request, rubrica_id):
 		nlogros = np.array(request.POST.getlist('nlogro'))
 		data = np.array(request.POST.getlist('text'))
 
@@ -54,6 +55,20 @@ class RubricaView(View):
 			df = pd.DataFrame(rows, columns=cols)
 			df_csv = df.to_csv(None, sep=',', index=False)
 			Rubric.objects.filter(pk=rubrica_id).update(table=df_csv)
+
 			Rubric.objects.filter(pk=rubrica_id).update(name=new_name)
+
 		
 		return HttpResponseRedirect("") 
+
+def newRubricaView(request):
+	new_id = Rubric.objects.latest('id').id +  1
+	rubrica = Rubric(name = "Rubrica {}".format(new_id), table=",1.0\nCriterio 1,nlogro1\n")
+	rubrica.save()
+	return redirect("rubrica:rubrica", rubrica_id=new_id)
+
+
+class DelRubricaView(SuccessMessageMixin, DeleteView):
+	model = Rubric
+	success_url = reverse_lazy('Landing Page')
+	success_message = "deleted..."

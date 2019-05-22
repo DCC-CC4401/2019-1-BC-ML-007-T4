@@ -20,7 +20,7 @@ var init_buttons = function(){
 		if($(".btn:hover").length)
 			return;
 		$(this).parents(".edit-text").hide("fast");
-		$(this).nearest(".edit-text").prev().show("fast");
+		$(this).parents(".edit-text").prev().show("fast");
 
 	});
 
@@ -143,4 +143,26 @@ var init_buttons = function(){
 
 $(document).ready(function() {
 	init_buttons()
+
+	$("#delete-rubric").click(function(){
+	    var alertdiv =$('<h3> ¿Estas seguro de querer borrar esta rubrica?</h3>').appendTo($('.w3-main'))
+	    alertdiv.dialog({
+	            dialogClass: "no-close",
+	    		within: ".w3-main",
+	            width:650, height:150,
+	            modal:true,
+	            resizable: false, 
+	            show: { effect: 'drop', direction: "left" }, 
+	            hide: { effect:'drop', direction: "left"},
+
+	            buttons: {
+	                Confirmar: function() {
+	                      $("#delete-form").submit()},
+	                Cancelar: function() {
+	                	$('#alertblanket').hide(0);
+	                    $(this).dialog( "close" );}
+	                }
+	           });
+
+	});
 });

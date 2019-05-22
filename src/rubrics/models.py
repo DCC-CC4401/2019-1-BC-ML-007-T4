@@ -17,4 +17,8 @@ class Rubric(models.Model):
     def __str__(self):
     	return self.to_df().to_string()
 
+    def get_absolute_url(self):
+        return reverse('rubric:rubric', kwargs={'rubrica_id': self.pk})
+
+
 
