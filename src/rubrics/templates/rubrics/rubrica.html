@@ -45,63 +45,74 @@
 
     		 <h1 class="w3-xxxlarge w3-text-red" style="margin: 2%;"><b>Ficha de rúbrica</b></h1>
 
-    		<div class="w3-row-padding w3-container">
-        		<button type="button" class="button2"> Rubrica {{ rubrica_id }}  <i class="fas fa-edit"></i></button><br>
+    		<form method="POST">
+    		 {% csrf_token %}
+    		<div class="w3-third w3-container">
+    			<h2 class="w3-xxlarge w3-text-red">
+        		<div class="editable-text"> {{ name_form.name.value}}</div>
+        		<div class="edit-text" style="display: none;">
+        			<div class="w3-content">{{ name_form.name.errors }}{{name_form.name}} </div>
+        			<div class="w3-row" >
+        				<div class="w3-half"> <button type="button" class="btn btn-accept"><i class="fas fa-check"> </i></button> </div>
+        				<div class="w3-half"> <button type="button" class="btn btn-cancel"><i class="fas fa-times"></i></button> </div>
+        			</div>
+    			</div>
+    			</h2>
     		</div>
 
-    		<form method="POST" action=".">
-    			{% for hidden_field in form.hidden_fields %}
-    			   {{ hidden_field.errors }}
-    			   {{ hidden_field }}
-    			 {% endfor %}
+
 	        <div class="w3-content table-responsive">
 	        	<table>
-	        	<tr>
-	        	<th> Criterio </th>
-	        	{% for nivel_logro in form.get_nlogro %}
-	        	<th>
-	        	<div class="editable-text"> {{ nivel_logro.label}}</div>
-	        	<div class="edit-text" style="display: none;">
-	        		<div class="w3-content">{{ nivel_logro.errors }}{{nivel_logro}} </div>
-	        		<div class="w3-row" >
-	        			<div class="w3-half"> <button type="button" class="btn btn-accept"><i class="fas fa-check"> </i></button> </div>
-	        			<div class="w3-half"> <button type="button" class="btn btn-cancel"><i class="fas fa-times"></i></button> </div>
-	        		</div>
-	        	</div> 
-	        	</div>
-	        	  </th>
-	        	{% endfor %}
-	        	<td><button type="button" id="btn-add-col" class="btn"><i class="fas fa-plus"></i></button> </td>
+		        <tr>
+		        	<th> Criterio </th>
+		        	{% for nivel_logro in nlogro_forms %}	
+		        	<th>
+			        	<div class="editable-text"> {{ nivel_logro.nlogro.value}}</div>
+			        	<div class="edit-text" style="display: none;">
+			        		<div class="w3-content">{{ nivel_logro.nlogro.errors }}{{nivel_logro.nlogro}} </div>
+			        		<div class="w3-row" >
+			        			<div class="w3-half"> <button type="button" class="btn btn-accept"><i class="fas fa-check"> </i></button> </div>
+			        			<div class="w3-half"> <button type="button" class="btn btn-cancel"><i class="fas fa-times"></i></button> </div>
+			        		</div>
+			        	</div> 
+		        	 </th>
+		        	{% endfor %}
+		        	<th><button type="button" class="btn btn-add-col"><i class="fas fa-plus"></i></button> </th>
 	        	</tr>
-	        	{% for row in form.get_rows %}
+		        <tbody id="table-rows">
+	        	{% for row in rows_forms %}
 	        	    <tr>
 	        	    	{% for entry in row%}
 	        	    	<td>
-	        	    		<div class="editable-text"> {{entry.label}}</div>
+	        	    		<div class="editable-text"> {{entry.text.value}}</div>
 	        	    		<div class="edit-text" style="display: none;">
-	        	    			<div class="w3-content" >{{ entry.errors }}{{entry}} </div>
+	        	    			<div class="w3-content" >{{ entry.text.errors }}{{entry.text}} </div>
 	        	    			<div class="w3-row" >
 	        	    				<div class="w3-half"> <button type="button" class="btn btn-accept"><i class="fas fa-check"> </i></button> </div>
 	        	    				<div class="w3-half"> <button type="button" class="btn btn-cancel"><i class="fas fa-times"></i></button> </div>
 	        	    			</div>
 	        	    		</div> 
-	        	    		</div>
 	        	    	</td>
 	        	    	{% endfor %}
-	        	    	<td><button type="button" class="btn"><i class="fas fa-trash-alt"></i></button> </td>
+	        	    	<td><button type="button" class="btn btn-del-row"><i class="fas fa-trash-alt"></i></button> </td>
 	        	    </tr>
 	        	{% endfor %}
+	        	</tbody>
 
 	        	<tr> 
-			        <td><button type="button" class="btn"><i class="fas fa-plus"></i></button> </td>
+			        <td><button type="button" class="btn btn-add-row"><i class="fas fa-plus"></i></button> </td>
 
-		        	{% for nivel_logro in form.get_nlogro %}
-			        	<td><button type="button" class="btn"><i class="fas fa-trash-alt"></i></button> </td>
+		        	{% for nivel_logro in nlogro_forms %}
+			        	<td><button type="button" class="btn btn-del-col"><i class="fas fa-trash-alt"></i></button> </td>
 		        	{% endfor %}
+		        	<td style="background-color: #FFF"> </td>
 	        	</tr>
 	        	</table>
         	</div>
-        	<input type=submit>
+        	<div class="w3-content">
+        		<button class="w3-half"> Guardar Cambios</button>
+        		<button class="w3-quarter" type="button"> Volver </button>
+        	</div>
         	</form>
     	</div>
 
@@ -128,3 +139,5 @@
     {% endblock javascript %}
 
 </body>
+
+

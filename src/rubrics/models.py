@@ -5,12 +5,16 @@ import io
 # Create your models here.
 
 class Rubric(models.Model):
+    name = models.TextField(max_length=50)
     table = models.TextField(max_length=2000)
 
-    def as_csv(self):
+    def to_df(self):
     	return pd.read_csv(io.StringIO(self.table), header=0, sep=',')
 
+    def get_name(self):
+    	return self.name
+
     def __str__(self):
-    	return self.as_csv().to_string()
+    	return self.to_df().to_string()
 
 
