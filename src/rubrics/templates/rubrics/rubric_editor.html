@@ -1,0 +1,105 @@
+
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block stylesheets %}
+
+<link rel="stylesheet" type="text/css" href="{% static 'rubrics/style.css' %}">
+
+{% endblock stylesheets %}
+
+{% block content %}
+
+
+<h1 class="w3-xxxlarge w3-text-red" style="margin: 2%;"><b>Ficha de rúbrica</b></h1>
+
+<form method="POST">
+  {% csrf_token %}
+  <div class="w3-third w3-container">
+    <h2 class="w3-xxlarge w3-text-red">
+      <div class="editable-text"> {{ name_form.name.value}}</div>
+      <div class="edit-text" style="display: none;">
+        <div class="w3-content">{{ name_form.name.errors }}{{name_form.name}} </div>
+        <div class="w3-row">
+          <div class="w3-half"> <button type="button" class="btn btn-accept"><i class="fas fa-check"> </i></button> </div>
+          <div class="w3-half"> <button type="button" class="btn btn-cancel"><i class="fas fa-times"></i></button> </div>
+        </div>
+      </div>
+    </h2>
+  </div>
+
+
+  <div class="w3-content table-responsive">
+    <table>
+      <tr>
+        <th> Criterio </th>
+        {% for nivel_logro in nlogro_forms %}
+        <th>
+          <div class="editable-text"> {{ nivel_logro.nlogro.value}}</div>
+          <div class="edit-text" style="display: none;">
+            <div class="w3-content">{{ nivel_logro.nlogro.errors }}{{nivel_logro.nlogro}} </div>
+            <div class="w3-row">
+              <div class="w3-half"> <button type="button" class="btn btn-accept"><i class="fas fa-check"> </i></button> </div>
+              <div class="w3-half"> <button type="button" class="btn btn-cancel"><i class="fas fa-times"></i></button> </div>
+            </div>
+          </div>
+        </th>
+        {% endfor %}
+        <th><button type="button" class="btn btn-add-col"><i class="fas fa-plus"></i></button> </th>
+      </tr>
+      <tbody id="table-rows">
+        {% for row in rows_forms %}
+        <tr>
+          {% for entry in row%}
+          <td>
+            <div class="editable-text"> {{entry.text.value}}</div>
+            <div class="edit-text" style="display: none;">
+              <div class="w3-content">{{ entry.text.errors }}{{entry.text}} </div>
+              <div class="w3-row">
+                <div class="w3-half"> <button type="button" class="btn btn-accept"><i class="fas fa-check"> </i></button> </div>
+                <div class="w3-half"> <button type="button" class="btn btn-cancel"><i class="fas fa-times"></i></button> </div>
+              </div>
+            </div>
+          </td>
+          {% endfor %}
+          <td><button type="button" class="btn btn-del-row"><i class="fas fa-trash-alt"></i></button> </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+
+      <tr>
+        <td><button type="button" class="btn btn-add-row"><i class="fas fa-plus"></i></button> </td>
+
+        {% for nivel_logro in nlogro_forms %}
+        <td><button type="button" class="btn btn-del-col"><i class="fas fa-trash-alt"></i></button> </td>
+        {% endfor %}
+        <td style="background-color: #FFF"> </td>
+      </tr>
+    </table>
+  </div>
+  <div class="w3-content">
+    <button class="w3-half"> Guardar Cambios</button>
+</form>
+
+<form action="{% url 'Landing Page' %}" method="POST">
+  {% csrf_token %}
+  <button id="confirm-del" class="w3-quarter"> Volver </button>
+</form>
+
+
+<form id="delete-form" action="{% url 'rubrica:del_rubrica' pk=rubrica_id %}" method="POST">
+  {% csrf_token %}
+  <button id="delete-rubric" type="button" class="w3-quarter btn-danger" value="Delete"> Eliminar tabla </button>
+</form>
+
+</div>
+
+{% endblock content %}
+
+{% block javascript %}
+
+<script src="{% static 'rubrics/jquery.js' %}"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+
+{% endblock javascript %}
