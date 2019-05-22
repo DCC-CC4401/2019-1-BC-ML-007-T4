@@ -41,7 +41,7 @@ INSTALLED_APPS = [
     'users.apps.UsersConfig',
     'courses',
     'evaluations',
-    'rubrics',
+    'rubrics.apps.RubricsConfig',
     'presentations',
 ]
 
