@@ -19,6 +19,3 @@ class Rubric(models.Model):
 
     def get_absolute_url(self):
         return reverse('rubric:rubric', kwargs={'rubrica_id': self.pk})
-
-
-
