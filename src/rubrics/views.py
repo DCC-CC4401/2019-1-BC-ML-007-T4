@@ -5,7 +5,7 @@ from django.views import View
 from django.views.generic.edit import DeleteView, CreateView
 from django.contrib.messages.views import SuccessMessageMixin
 from django.contrib import messages
-
+from django.core.exceptions import ObjectDoesNotExist
 
 from .models import Rubric
 from .forms import RubricEntryForm, RubricAchForm, RubricNameForm
@@ -62,7 +62,11 @@ class RubricaView(View):
 		return HttpResponseRedirect("") 
 
 def newRubricaView(request):
-	new_id = Rubric.objects.latest('id').id +  1
+	try:
+		old_id = Rubric.objects.latest('id').id
+	except ObjectDoesNotExist:
+		old_id = 0
+	new_id = old_id +  1
 	rubrica = Rubric(name = "Rubrica {}".format(new_id), table=",1.0\nCriterio 1,nlogro1\n")
 	rubrica.save()
 	return redirect("rubrica:rubrica", rubrica_id=new_id)
