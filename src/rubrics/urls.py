@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import RubricaView, newRubricaView, DelRubricaView
+from .views import rubrics_page, RubricaView, newRubricaView, DelRubricaView
 
 from . import views
 

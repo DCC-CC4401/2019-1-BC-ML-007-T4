@@ -14,6 +14,9 @@ import pandas as pd
 import numpy as np
 
 
+def rubrics_page(request, *args):
+	return render(request, "rubrics.html", {})
+
 class RubricaView(View):
 
 	def get(self, request, rubrica_id):
@@ -74,5 +77,5 @@ def newRubricaView(request):
 
 class DelRubricaView(SuccessMessageMixin, DeleteView):
 	model = Rubric
-	success_url = reverse_lazy('Landing Page')
+	success_url = reverse_lazy('Rubrics Page')
 	success_message = "deleted..."
