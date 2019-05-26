@@ -15,7 +15,16 @@ import numpy as np
 
 
 def rubrics_page(request, *args):
-	return render(request, "rubrics.html", {})
+
+	rubric_ids = map(lambda x: x.get('id'), Rubric.objects.all().values('id'))
+	rubric_names = map(lambda x: x.get('name'), Rubric.objects.all().values('name'))
+	rubric_htmls = map(lambda x: x.to_df().to_html(index=False, classes="rubric_table", justify="left"), Rubric.objects.all())
+
+	context = {
+		"rubrics": zip(rubric_ids, rubric_names, rubric_htmls),
+	}
+
+	return render(request, "rubrics.html", context)
 
 def newRubricView(request):
 	try:
@@ -23,7 +32,7 @@ def newRubricView(request):
 	except ObjectDoesNotExist:
 		old_id = 0
 	new_id = old_id +  1
-	rubrica = Rubric(id=new_id, name = "Rubrica {}".format(new_id), table=",1.0\nCriterio 1,nlogro1\n")
+	rubrica = Rubric(id=new_id, name = "Rubrica {}".format(new_id), table="Criterio,1.0\nCriterio 1,nlogro1\n")
 	rubrica.save()
 	return redirect("rubrics:edit", rubric_id=new_id)
 
@@ -55,7 +64,7 @@ class RubricView(View):
 		nlogros = np.array(request.POST.getlist('nlogro'))
 		data = np.array(request.POST.getlist('text'))
 
-		cols = np.append([''], nlogros)
+		cols = np.append(['Criterio'], nlogros)
 
 		ncols = cols.size
 		nrows = int(data.size/ncols)

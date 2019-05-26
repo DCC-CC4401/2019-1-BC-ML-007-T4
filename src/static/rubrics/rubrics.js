@@ -12,3 +12,11 @@ function myFunction( id )
         x.className = x.className.replace( " w3-show", "" );
     }
 }
+
+$(document).ready(
+    function()
+    {
+        $( ".rubric_table" ).addClass("w3-table-all");
+        $( ".rubric_table thead" ).addClass("w3-light-grey");
+    }
+)
