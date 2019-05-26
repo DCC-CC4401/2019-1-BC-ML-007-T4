@@ -33,9 +33,12 @@
 </div>
 
 <div class="w3-container">
-  <button class="w3-button w3-large w3-red w3-right w3-round">
-    Agregar nueva rúbrica
-  </button>
+  <form id="add-form" action="{% url 'rubrics:new' %}" method="POST">
+  {% csrf_token %}
+    <button class="w3-button w3-large w3-red w3-right w3-round">
+      Agregar nueva rúbrica
+    </button>
+  </form>
   <br>
 </div>
 <!--Seccion rubricas-->

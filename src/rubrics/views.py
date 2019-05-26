@@ -1,6 +1,6 @@
 from django.shortcuts import get_object_or_404, render, redirect
 from django.http import HttpResponseRedirect
-from django.urls import reverse_lazy
+from django.urls import reverse_lazy, reverse
 from django.views import View
 from django.views.generic.edit import DeleteView, CreateView
 from django.contrib.messages.views import SuccessMessageMixin
@@ -17,10 +17,20 @@ import numpy as np
 def rubrics_page(request, *args):
 	return render(request, "rubrics.html", {})
 
-class RubricaView(View):
+def newRubricView(request):
+	try:
+		old_id = Rubric.objects.latest('id').id
+	except ObjectDoesNotExist:
+		old_id = 0
+	new_id = old_id +  1
+	rubrica = Rubric(id=new_id, name = "Rubrica {}".format(new_id), table=",1.0\nCriterio 1,nlogro1\n")
+	rubrica.save()
+	return redirect("rubrics:edit", rubric_id=new_id)
 
-	def get(self, request, rubrica_id):
-		rubrica = get_object_or_404(Rubric, pk=rubrica_id)
+class RubricView(View):
+
+	def get(self, request, rubric_id):
+		rubrica = get_object_or_404(Rubric, pk=rubric_id)
 		rubrica_df = rubrica.to_df()
 		name_form = RubricNameForm({'name' : rubrica.get_name()});
 
@@ -38,10 +48,10 @@ class RubricaView(View):
 		context = {	'rows_forms' : rows_forms,
 					'nlogro_forms': nlogro_forms,
 					'name_form' : name_form,
-					'rubrica_id' : rubrica_id}
-		return render(request, 'rubrics/rubric_editor.html', context)
+					'rubrica_id' : rubric_id}
+		return render(request, 'editor/rubric_editor.html', context)
 
-	def post(self, request, rubrica_id):
+	def post(self, request, rubric_id):
 		nlogros = np.array(request.POST.getlist('nlogro'))
 		data = np.array(request.POST.getlist('text'))
 
@@ -57,25 +67,13 @@ class RubricaView(View):
 			new_name = name_form.cleaned_data['name']
 			df = pd.DataFrame(rows, columns=cols)
 			df_csv = df.to_csv(None, sep=',', index=False)
-			Rubric.objects.filter(pk=rubrica_id).update(table=df_csv)
+			Rubric.objects.filter(pk=rubric_id).update(table=df_csv)
 
-			Rubric.objects.filter(pk=rubrica_id).update(name=new_name)
+			Rubric.objects.filter(pk=rubric_id).update(name=new_name)
 
-		
-		return HttpResponseRedirect("") 
+		return HttpResponseRedirect("")
 
-def newRubricaView(request):
-	try:
-		old_id = Rubric.objects.latest('id').id
-	except ObjectDoesNotExist:
-		old_id = 0
-	new_id = old_id +  1
-	rubrica = Rubric(name = "Rubrica {}".format(new_id), table=",1.0\nCriterio 1,nlogro1\n")
-	rubrica.save()
-	return redirect("rubrica:rubrica", rubrica_id=new_id)
-
-
-class DelRubricaView(SuccessMessageMixin, DeleteView):
+class DeleteRubricView(SuccessMessageMixin, DeleteView):
 	model = Rubric
 	success_url = reverse_lazy('Rubrics Page')
 	success_message = "deleted..."

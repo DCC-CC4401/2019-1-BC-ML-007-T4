@@ -5,9 +5,15 @@
 
 {% block stylesheets %}
 
-<link rel="stylesheet" type="text/css" href="{% static 'rubrics/style.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'rubrics/editor/rubric_editor.css' %}">
 
 {% endblock stylesheets %}
+
+{% block javascript %}
+
+<script src="{% static 'rubrics/editor/rubric_editor.js' %}"></script>
+
+{% endblock javascript %}
 
 {% block content %}
 
@@ -81,22 +87,15 @@
     <button class="w3-half"> Guardar Cambios</button>
 </form>
 
-<form action="{% url 'Landing Page' %}" method="POST">
+<form action="{% url 'Rubrics Page' %}" method="POST">
   {% csrf_token %}
   <button id="confirm-del" class="w3-quarter"> Volver </button>
 </form>
 
 
-<form id="delete-form" action="{% url 'rubrica:del_rubrica' pk=rubrica_id %}" method="POST">
+<form id="delete-form" action="{% url 'rubrics:delete' pk=rubrica_id %}" method="POST">
   {% csrf_token %}
   <button id="delete-rubric" type="button" class="w3-quarter btn-danger" value="Delete"> Eliminar tabla </button>
 </form>
 
 {% endblock content %}
-
-{% block javascript %}
-
-<script src="{% static 'rubrics/jquery.js' %}"></script>
-<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
-
-{% endblock javascript %}
