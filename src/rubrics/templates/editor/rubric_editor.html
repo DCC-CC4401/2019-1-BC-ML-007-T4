@@ -95,7 +95,7 @@
 
 <form id="delete-form" action="{% url 'rubrics:delete' pk=rubrica_id %}" method="POST">
   {% csrf_token %}
-  <button id="delete-rubric" type="button" class="w3-quarter btn-danger" value="Delete"> Eliminar tabla </button>
+  <button id="delete-rubric" type="button" class="w3-quarter btn-danger"> Eliminar tabla </button>
 </form>
 
 {% endblock content %}
