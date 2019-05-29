@@ -21,7 +21,6 @@ from users.views import landing_page, evaluators_page
 from courses.views import courses_page
 from evaluations.views import evaluations_page
 
-
 urlpatterns = [
     path('', landing_page, name="Landing Page"),
     path('cursos/', courses_page, name="Courses Page"),

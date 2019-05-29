@@ -1,8 +1,22 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block stylesheets %}
+
+	<!-- Landing Page CSS -->
+	<link rel="stylesheet" href={% static 'users/logout_page.css' %}>
+
+{% endblock stylesheets %}
+
 {% block content %}
-    <h2>You have been logged out</h2>
-    <div class="border-top pt-3">
-        <small class="text-muted">
-            <a href="{% url 'login' %}">Login Again</a>
-        </small>
-    </div>
+
+<div class="w3-container landing-welcome-message-container logout-message">
+		<h1 class="w3-xxxlarge w3-text-red">
+			<b>
+                You have been logged out
+			</b>
+		</h1>
+</div>
+
 {% endblock content %}

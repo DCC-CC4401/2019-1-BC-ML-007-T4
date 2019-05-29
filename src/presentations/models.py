@@ -12,8 +12,7 @@ class Presentation(models.Model):
 
         unique_together = (("evaluation", "group"),)
 
-class Grade(models.Model):
-
+class Grade(models.Model):   
     evaluator = models.ForeignKey("users.BaseUser", on_delete=models.CASCADE)
     presentation = models.ForeignKey("presentations.Presentation", on_delete=models.CASCADE)
     student = models.ForeignKey("courses.Student", on_delete=models.CASCADE)
@@ -21,6 +20,7 @@ class Grade(models.Model):
         MinValueValidator(1.0),
         MaxValueValidator(7.0)
     ])
+    state = models.BooleanField(default=False)
 
     class Meta:
         unique_together = (("evaluator", "presentation", "student"),)
