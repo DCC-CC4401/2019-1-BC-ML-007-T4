@@ -1,6 +1,27 @@
-<h2>Login</h2>
-<form method="post">
+{% extends 'base.html' %}
+
+{% load static %}
+
+
+{% block title %}
+	<title>
+		Login
+	</title>
+{% endblock title %}
+
+{% block stylesheets %}
+
+	<!-- Login Page CSS -->
+	<link rel="stylesheet" href={% static 'users/login_page.css' %}>
+
+{% endblock stylesheets %}
+
+{% block content %}
+<div class="w3-container landing-welcome-message-container login-form">
+  <form method="post">
   {% csrf_token %}
   {{ form.as_p }}
   <button type="submit">Login</button>
-</form>
+  </form>
+</div>
+{% endblock content %}
