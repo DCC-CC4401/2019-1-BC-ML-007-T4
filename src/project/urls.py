@@ -29,6 +29,7 @@ urlpatterns = [
     path('rubricas/', rubrics_page, name="Rubrics Page"),
     path('rubricas/', include('rubrics.urls'), name="Rubrics Editor"),
     path('evaluaciones/', evaluations_page, name="Evaluations Page"),
+    path('evaluaciones/', include('evaluations.urls'), name="Evaluations Form"),
     path('login/', auth_views.LoginView.as_view(template_name='login.html'), name='login'),
     path('logout/', auth_views.LogoutView.as_view(template_name='logout.html'), name='logout'),
     path('admin/', admin.site.urls),

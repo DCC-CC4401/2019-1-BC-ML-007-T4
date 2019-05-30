@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block title %}
+
+<title>
+  Sistema de Evaluación
+</title>
+
+{% endblock title %}
+
+{% block stylesheets %}
+
+<!-- Evaluation Form CSS -->
+<link rel="stylesheet" href={% static 'evaluations/evaluations_form.css' %}>
+
+{% endblock stylesheets %}
+
+{% block javascript %}
+
+<!-- Evaluation Form JS -->
+<script src={% static 'evaluations/evaluations_form.js' %}></script>
+
+{% endblock javascript %}
+
+{% block content %}
+
+
+
+{% endblock content %}
