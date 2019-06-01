@@ -26,7 +26,10 @@
         <a href="{{ evaluators_url }}" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-white">Evaluadores</a>
         <a href="{{ rubrics_url }}" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-white">Rúbricas</a>
         {% endif %}
-        <a href="{{ evaluations_url }}" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-white">Evaluaciones</a> 
+        <a href="{{ evaluations_url }}" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-white">Evaluaciones</a>
+        <a class="w3-bar-item w3-button" href='{% url "logout" %}'>Logout</a>
+    {% else %}
+        <a class="w3-bar-item w3-button" href='{% url "login" %}'>Login</a>
     {% endif %}
   </div>
 </nav>
