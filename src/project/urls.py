@@ -27,6 +27,7 @@ urlpatterns = [
     path('cursos/', courses_page, name="Courses Page"),
     #path('evaluadores/', evaluators_page, name="Evaluators Page"),
     path('evaluadores/', registro_usuario.as_view(), name="Evaluators Page"),
+    path('evaluadores/', include('users.urls'), name="Edit Users"),
     path('rubricas/', rubrics_page, name="Rubrics Page"),
     path('rubricas/', include('rubrics.urls'), name="Rubrics Editor"),
     path('evaluaciones/', evaluations_page, name="Evaluations Page"),
