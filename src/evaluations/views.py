@@ -9,7 +9,8 @@ from django.db.models.query import QuerySet
 def evaluations_page(request, *args):
     
     if request.user.is_staff:
-        return render(request, "evaluations.html")
+        evaluaciones=  Evaluation.objects.all()
+        return render(request, "evaluations.html",{'evaluaciones':evaluaciones})
     else:
         userid = request.user.id
         grades = Grade.objects.filter(evaluator_id = userid)[:10] #All grades for the evaluator

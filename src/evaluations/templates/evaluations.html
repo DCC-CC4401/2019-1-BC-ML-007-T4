@@ -44,7 +44,7 @@
     <br>
   </div>
   {% endif %}
-  <!--Seccion evaluaciones-->
+  <!--Seccion  evaluaciones-->
   {% if not user.is_staff %}
     <!-- Para evaluadores -->
     {% regroup obj by presentation.evaluation as evaluation_list %}
@@ -78,12 +78,13 @@
   {% else %}
   <!-- Para admin -->
   {% endif %}
+  {% for eval in evaluaciones %}
   <button onclick="myFunction('Demo3')" class="w3-btn w3-red w3-block w3-margin" style="width: 75%"><h3>
     Evaluación 1</h3></button>
 
   <div id="Demo3" class="w3-hide w3-container w3-pale-red  w3-padding-large w3-margin"style="width: 75%">
 
-    <p><li>Curso: -</li>
+    <p><li>Curso:{{eval.course.code}} -</li>
       <li>Fecha inicio: -</li>
       <li>Fecha término: -</li>
       <button class="w3-button w3-white w3-border w3-border-red w3-round-large">Rúbrica asociada</button>
@@ -94,20 +95,8 @@
     <button class="w3-button w3-large w3-red w3-margin-left w3-round">Modificar</button>
     <button class="w3-button w3-large w3-red w3-right w3-round">Eliminar</button>
   </div>
+  {% endfor %}
 
-  <button onclick="myFunction('Demo4')" class="w3-btn w3-red w3-block w3-margin" style="width: 75%"><h3>
-      Evaluación 2</h3></button>
-
-  <div id="Demo4" class="w3-hide w3-container w3-pale-red w3-padding-large w3-margin"style="width: 75%">
-    <p><li>Curso: -</li>
-      <li>Fecha inicio: -</li>
-      <li>Fecha término: -</li>
-      <button class="w3-button w3-white w3-border w3-border-red w3-round-large">Rúbrica asociada</button>
-    <button class="w3-button w3-white w3-border w3-border-red w3-round-large">Exportar puntajes</button><br>
-  </p>
-    <button class="w3-button w3-large w3-red w3-round">Ver</button>
-    <button class="w3-button w3-large w3-red w3-margin-left w3-round">Modificar</button>
-    <button class="w3-button w3-large w3-red w3-right w3-round">Eliminar</button>
-  </div>
+  
 
 {% endblock content %}
