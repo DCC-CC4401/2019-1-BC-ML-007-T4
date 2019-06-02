@@ -8,7 +8,13 @@ class BaseUserCreationForm(UserCreationForm):
 
     class Meta(UserCreationForm):
         model = BaseUser
-        fields = ('username', 'email')
+        fields = ['first_name', 'last_name', 'email', 'username']
+        labels = {
+            'first_name': 'nombre',
+            'last_name': 'apellido',
+            'email': 'email',
+            'username': 'username'
+        }
 
 class BaseUserChangeForm(UserChangeForm):
 

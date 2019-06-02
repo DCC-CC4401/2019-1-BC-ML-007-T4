@@ -25,7 +25,7 @@
 {% endblock javascript %}
 
 {% block content %}
-
+  
   <!-- Portada -->
   <div class="w3-container" id="portada" style="margin-top:80px; margin-bottom:10px">
     <h1 class="w3-xxxlarge w3-text-red">
@@ -44,8 +44,40 @@
     <br>
   </div>
   {% endif %}
-  <!--Seccion rubricas-->
+  <!--Seccion evaluaciones-->
+  {% if not user.is_staff %}
+    <!-- Para evaluadores -->
+    {% regroup obj by presentation.evaluation as evaluation_list %}
+    {% for evaluation in evaluation_list %}
+      {% if not forloop.counter > 10 %}
+      <button onclick="myFunction({{ evaluation.grouper.id }})" class="w3-btn w3-red w3-block w3-margin" style="width: 75%">
+        <h3>
+          {{ evaluation.grouper.course.code }} | {{ evaluation.grouper.id }}
+        </h3>
+      </button>
 
+      <div id= {{ evaluation.grouper.id }} class="w3-hide w3-container w3-pale-red  w3-padding-large w3-margin"style="width: 75%">
+        <table>
+        {% for grade in evaluation.list %}
+          <tr>
+          <td>Grupo: {{ grade.student.name }}</td>
+          {% if grade.state %}
+            <td>Contestada </td>
+            <td><button class="w3-button w3-large w3-red w3-margin-left w3-round">Modificar</button> </td>
+            {% else %}
+            <td>No contestada </td>
+            <td><button class="w3-button w3-large w3-red w3-margin-left w3-round">Contestar</button> </td>
+            {% endif %}
+          </tr>
+        {% endfor %}
+        </table>
+      </div>
+      {% endif %}
+
+    {% endfor %}
+  {% else %}
+  <!-- Para admin -->
+  {% endif %}
   <button onclick="myFunction('Demo3')" class="w3-btn w3-red w3-block w3-margin" style="width: 75%"><h3>
     Evaluación 1</h3></button>
 

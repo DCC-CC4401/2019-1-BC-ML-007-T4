@@ -13,7 +13,7 @@
   <div class="w3-container">
       <p class="w3-center"><img src={% static 'W3School/images/avatar3.png' %} class="w3-circle navbar-avatar" alt="Avatar"></p>
       {% if user.is_authenticated %}
-        <h3 class="w3-padding-64"><center><b>{{request.user.username}}</b></center></h3>
+        <h3 class="w3-padding-64"><center><b>{{request.user.first_name}} {{request.user.last_name}}</b></center></h3>
       {% else %}
         <h3 class="w3-padding-64"><center><b>Usuario</b></center></h3>
       {% endif %}
@@ -26,7 +26,10 @@
         <a href="{{ evaluators_url }}" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-white">Evaluadores</a>
         <a href="{{ rubrics_url }}" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-white">Rúbricas</a>
         {% endif %}
-        <a href="{{ evaluations_url }}" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-white">Evaluaciones</a> 
+        <a href="{{ evaluations_url }}" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-white">Evaluaciones</a>
+        <a class="w3-bar-item w3-button" href='{% url "logout" %}'>Logout</a>
+    {% else %}
+        <a class="w3-bar-item w3-button" href='{% url "login" %}'>Login</a>
     {% endif %}
   </div>
 </nav>

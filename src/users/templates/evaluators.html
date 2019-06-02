@@ -43,16 +43,19 @@
 
   <!--Cajas evaluadores-->
   <div class="w3-row-padding w3-center w3-margin-top">
-
+      {%for evaluator,id in evaluators%}
+      
     <div class="w3-quarter w3-margin-top">
       <button onclick="document.getElementById('gestionar').style.display='block'" class="w3-card w3-container w3-hover-shadow evaluators-evaluator-card">
         <h3>
-          Nombre y apellido
+          {{evaluator.first_name}} {{evaluator.last_name}}
         </h3>
         <br>
         <i class="fas fa-user-alt evaluators-evaluator-icon"></i>
         <p>
-          Correo
+          {{evaluator.email}}
+        <br>
+          {{evaluator.username}}
         </p>
       </button>
     </div>
@@ -65,18 +68,61 @@
             ×
           </span>
           <div class="w3-margin">
-            <button class="w3-button w3-red w3-section w3-padding:10px" type="submit">
+            <button onclick="document.getElementById('editar').style.display='block'" class="w3-button w3-red w3-section w3-padding:10px" type="submit">
               Modificar
             </button>
             <br>
+            <form id="form_{{ id }}" action="{% url 'users:delete' pk=id %}" method="POST">
+                {% csrf_token %}
             <button class="w3-button w3-red w3-section w3-padding:10px" type="submit">
               Eliminar
             </button>
+            </form>
           </div>
         </div>
       </div>
     </div>
 
+    <form method="POST" id="form_{{ id }}" action="{% url 'users:edit' pk=id %}"">
+        {%csrf_token%}
+     <div id="editar" class="w3-modal">
+       <div class="w3-modal-content w3-card-4 w3-animate-zoom evaluators-add-modal">
+         <div class="w3-center">
+             <br>
+             <span onclick="document.getElementById('editar').style.display='none'" class="w3-button w3-xlarge w3-transparent w3-display-topright" title="Close Modal">
+               ×
+             </span>
+             <form class="w3-container" action="/action_page.php">
+               <div class="w3-section">
+                   <label>
+                       <b>
+                         Nombre
+                       </b>
+                     </label>
+                     <input class="w3-input w3-border w3-margin-bottom form-control" type="text" value={{evaluator.first_name}} name="first_name" id="fn2" required>
+                     <label>
+                       <b>
+                         Apellido
+                       </b>
+                     </label>
+                     <input class="w3-input w3-border form-control" type="text" value={{evaluator.last_name}} name="last_name" id="ln2" required>
+                     <label>
+                         <b>
+                           Correo
+                         </b>
+                       </label>
+                     <input class="w3-input w3-border form-control" type="email" value={{evaluator.email}} name="email" id="email2" required>
+                     <input type="hidden" type="text" name="username" id="usrnm2">
+                     <button onclick="myFunction2()" class="w3-button w3-block w3-red w3-section w3-padding" type="submit">
+                         Editar
+                     </button>
+               </div>
+             </form>
+         </div>
+       </div>
+     </div>
+     </form>
+   {%endfor%}
     <!--Caja de agregar-->
     <div class="w3-quarter w3-margin-top">
       <button onclick="document.getElementById('agregar').style.display='block'" class="w3-card w3-container w3-light-gray w3-hover-shadow evaluators-add-card">
@@ -87,7 +133,11 @@
         <i class="fas fa-user-plus evaluators-add-icon"></i>
       </button>
     </div>
+    
 
+
+    <form method="POST">
+    {%csrf_token%}
     <div id="agregar" class="w3-modal">
       <div class="w3-modal-content w3-card-4 w3-animate-zoom evaluators-add-modal">
         <div class="w3-center">
@@ -102,28 +152,49 @@
                   Nombre
                 </b>
               </label>
-              <input class="w3-input w3-border w3-margin-bottom" type="text" placeholder="Ingrese nombre" name="usrname" required>
+              <input class="w3-input w3-border w3-margin-bottom form-control" type="text" placeholder="Ingrese nombre" name="first_name" id="fn" required>
               <label>
                 <b>
                   Apellido
                 </b>
               </label>
-              <input class="w3-input w3-border" type="text" placeholder="Ingrese apellido" name="psw" required>
+              <input class="w3-input w3-border form-control" type="text" placeholder="Ingrese apellido" name="last_name" id="ln" required>
               <label>
                 <b>
                   Correo
                 </b>
               </label>
-              <input class="w3-input w3-border" type="text" placeholder="Ingrese correo" name="secc" required>
-              <button class="w3-button w3-block w3-red w3-section w3-padding" type="submit">
+              <input class="w3-input w3-border form-control" type="email" placeholder="Ingrese correo" name="email" required>
+              <input type="hidden" type="text" name="password1" id="pss1">
+              <input type="hidden" type="text" name="password2" id="pss2">
+              <input type="hidden" type="text" name="username" id="usrnm">
+              <button onclick="myFunction()" class="w3-button w3-block w3-red w3-section w3-padding" type="submit">
                 Agregar
               </button>
             </div>
           </form>
         </div>
       </div>
+    </form>
       <!--cierre de cajas de cursos-->
-    </div>
   </div>
-
+</div>
+  {% for message in messages %}
+  <li class="{{ message.tags }}">{{ message }}</li>
+  {% endfor %}
+<script> function myFunction() {
+    var randomstring = Math.random().toString(36).slice(-8);
+    document.getElementById("pss1").value=randomstring;
+    document.getElementById("pss2").value=randomstring;
+    var firstname = document.getElementById("fn").value.toLowerCase();
+    var lastname = document.getElementById("ln").value.toLowerCase();
+    document.getElementById("usrnm").value = firstname.slice(0,firstname.length/2+1)+lastname.slice(0,lastname.length/2+1);
+  }
+</script>
+<script> function myFunction2() {
+    var firstname = document.getElementById("fn2").value.toLowerCase();
+    var lastname = document.getElementById("ln2").value.toLowerCase();
+    document.getElementById("usrnm2").value = firstname.slice(0,firstname.length/2+1)+lastname.slice(0,lastname.length/2+1);
+  }
+</script>
 {% endblock content %}
