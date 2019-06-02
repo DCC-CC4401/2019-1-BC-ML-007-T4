@@ -21,7 +21,7 @@ def evaluations_page(request, *args):
 def evaluation_form_page(request, evaluation_id, *args):
 
     context = {
-        "evaluation": get_object_or_404(Evaluation, course_id=evaluation_id),
+        "evaluation": get_object_or_404(Evaluation, id=evaluation_id),
     };
 
     return render(request, "evaluation_form.html", context);
