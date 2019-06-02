@@ -1,11 +1,13 @@
 from django.shortcuts import get_object_or_404, render, redirect
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, HttpResponseForbidden
 from django.urls import reverse_lazy, reverse
 from django.views import View
 from django.views.generic.edit import DeleteView, CreateView
 from django.contrib.messages.views import SuccessMessageMixin
+from django.contrib.auth.mixins import PermissionRequiredMixin, LoginRequiredMixin
 from django.contrib import messages
 from django.core.exceptions import ObjectDoesNotExist
+from django.contrib.auth.decorators import login_required, permission_required
 
 from .models import Rubric
 from .forms import RubricEntryForm, RubricAchForm, RubricNameForm
@@ -14,6 +16,8 @@ import pandas as pd
 import numpy as np
 
 
+@login_required
+@permission_required('rubrics.change_rubric')
 def rubrics_page(request, *args):
 
 	rubric_ids = map(lambda x: x.get('id'), Rubric.objects.all().values('id'))
@@ -26,6 +30,8 @@ def rubrics_page(request, *args):
 
 	return render(request, "rubrics.html", context)
 
+@login_required
+@permission_required('rubrics.add_rubric')
 def newRubricView(request):
 	try:
 		old_id = Rubric.objects.latest('id').id
@@ -34,10 +40,11 @@ def newRubricView(request):
 	new_id = old_id +  1
 	rubrica = Rubric(id=new_id, name = "Rubrica {}".format(new_id), table="Criterio,1.0\nCriterio 1,nlogro1\n")
 	rubrica.save()
-	return redirect("rubrics:edit", rubric_id=new_id)
+	return redirect("rubrics:view", rubric_id=new_id)
 
-class RubricView(View):
+class RubricView(LoginRequiredMixin,PermissionRequiredMixin, View):
 
+	permission_required = ('rubrics.view_rubric')
 	def get(self, request, rubric_id):
 		rubrica = get_object_or_404(Rubric, pk=rubric_id)
 		rubrica_df = rubrica.to_df()
@@ -58,9 +65,15 @@ class RubricView(View):
 					'nlogro_forms': nlogro_forms,
 					'name_form' : name_form,
 					'rubrica_id' : rubric_id}
-		return render(request, 'editor/rubric_editor.html', context)
+
+		if request.user.has_perm('rubrics.change_rubric'):
+			return render(request, 'rubrics/rubric_editor.html', context)
+
+		return render(request, 'rubrics/rubric_view.html', context)
 
 	def post(self, request, rubric_id):
+		if not request.user.has_perm('rubrics.edit_rubric'):
+			return HttpResponseForbidden()
 		nlogros = np.array(request.POST.getlist('nlogro'))
 		data = np.array(request.POST.getlist('text'))
 
@@ -82,7 +95,10 @@ class RubricView(View):
 
 		return HttpResponseRedirect("")
 
-class DeleteRubricView(SuccessMessageMixin, DeleteView):
+
+
+class DeleteRubricView(PermissionRequiredMixin, SuccessMessageMixin, DeleteView):
 	model = Rubric
 	success_url = reverse_lazy('Rubrics Page')
-	success_message = "deleted..."
+	success_message = "Rubrica Borrada"
+	permission_required = 'rubrics.del_rubric'

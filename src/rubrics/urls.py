@@ -6,6 +6,6 @@ from . import views
 app_name = 'rubrics'
 urlpatterns = [
     path('new', newRubricView, name='new'),
-    path('<int:rubric_id>', RubricView.as_view(), name='edit'),
+    path('<int:rubric_id>', RubricView.as_view(), name='view'),
     path('<int:pk>/delete', DeleteRubricView.as_view(), name='delete')
 ]
