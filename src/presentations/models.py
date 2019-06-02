@@ -7,9 +7,9 @@ class Presentation(models.Model):
     
     evaluation = models.ForeignKey("evaluations.Evaluation", on_delete=models.CASCADE)
     group = models.ForeignKey("courses.Group",on_delete=models.CASCADE)
+    allowed_evaluators = models.ManyToManyField("users.BaseUser")
 
     class Meta:
-
         unique_together = (("evaluation", "group"),)
 
 class Grade(models.Model):   
