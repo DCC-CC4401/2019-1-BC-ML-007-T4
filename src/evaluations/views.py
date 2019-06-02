@@ -1,5 +1,5 @@
-from django.shortcuts import render
-from presentations.models import *
+from django.shortcuts import render, get_object_or_404
+from presentations.models import Grade
 from .models import Evaluation
 from django.db.models.query import QuerySet
 
@@ -7,6 +7,7 @@ from django.db.models.query import QuerySet
 
 
 def evaluations_page(request, *args):
+    
     if request.user.is_staff:
         return render(request, "evaluations.html")
     else:
