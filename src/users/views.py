@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.http import HttpResponse
 # Create your views here.
 from .forms import BaseUserCreationForm
-from django.views.generic import CreateView, DeleteView
+from django.views.generic import CreateView, DeleteView, UpdateView
 from .models import BaseUser
 from django.contrib import messages
 from django.contrib.messages.views import SuccessMessageMixin
@@ -34,7 +34,7 @@ class registro_usuario(CreateView):
 
     def form_valid(self, form):
         form.save()
-        messages.success(self.request, form['username'].value() +"  "+form['password1'].value())
+        messages.success(self.request, "Usuario creado con exito, su contraseña es: "+form['password1'].value())
         return render(self.request, 'evaluators.html', self.get_context_data())
     
 
@@ -42,3 +42,8 @@ class DeleteUserView(SuccessMessageMixin, DeleteView):
 	model = BaseUser
 	success_url = reverse_lazy('Evaluators Page')
 	success_message = "deleted..."
+
+class EditUserView(SuccessMessageMixin,UpdateView):
+    model = BaseUser
+    fields = ['first_name', 'last_name', 'email', 'username']
+    success_url = reverse_lazy('Evaluators Page')
