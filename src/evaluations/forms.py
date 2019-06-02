@@ -1,7 +1,7 @@
 from django import forms
 import pandas as pd
 
-class RubricCriterionForm(forms.Form):
+class EvaluationCriterionForm(forms.Form):
 	'''
 	Forma para elegir los niveles de logro de una rúbrica. Cada fila es una selección, donde se
 	elige el nivel de logro.
@@ -19,4 +19,12 @@ class RubricCriterionForm(forms.Form):
 	   		choices = []
 	   		for index, nlogro in  enumerate(crit[1:]):
 	   			choices.append((puntajes[index], nlogro)) # (puntaje, name)
-	    	self.fields[fieldname] = ChoiceField(choices = choices, widget=forms.Select)
+	    	self.fields[fieldname] = ChoiceField(label=fieldname, choices = choices, widget=CriterionFrom)
+
+class CriterionFrom(forms.MultipleChoiceField):
+	'''
+	Widget para mostrar un criterio y sus niveles de logro
+	'''
+    template_name = 'templates/select_criterion.html'
+    option_template_name = 'templates/select_criterion_option.html'
+    required = True

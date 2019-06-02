@@ -1,0 +1,17 @@
+<!-- Template para mostrar una selección de nivel de logro -->
+{% with id=widget.attrs.id %}
+
+<div class="w3-panel  w3-margin-bottom">
+<ul {% if id %} id="{{ id }}"{% endif %} {% if widget.attrs.class %} class="{{ widget.attrs.class }} w3-ul w3-light-grey w3-center w3-card-4"{% endif %}>
+	
+	<li class="w3-red w3-xlarge w3-padding-32">{{widget.label}}<i class="far fa-check-circle"></i></li>
+
+	{% for group, options, index in widget.optgroups %}
+		{% if group %}<li >{{ group }}<ul{% if id %} id="{{ id }}_{{ index }}"{% endif %}>{% endif %}
+		{% for option in options %}
+	    	<li class="opcion w3-padding-16">{% include option.template_name with widget=option %}</li>
+	    {% endfor %}
+	    
+	    {% if group %}</ul></li>{% endif %}
+    {% endfor %}
+</ul>{% endwith %}
