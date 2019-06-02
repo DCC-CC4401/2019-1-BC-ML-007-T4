@@ -5,4 +5,4 @@ from django.db import models
 class Evaluation(models.Model):
 
     rubric = models.ForeignKey("rubrics.Rubric", null=True, on_delete=models.SET_NULL)
-    course = models.OneToOneField("courses.Course", null=False, on_delete=models.CASCADE)
+    course = models.ForeignKey("courses.Course", null=False, on_delete=models.CASCADE)
