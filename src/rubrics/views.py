@@ -20,6 +20,7 @@ import numpy as np
 @permission_required('rubrics.change_rubric')
 def rubrics_page(request, *args):
 
+	# TODO: Permitir ver solo si el usuario tiene el derecho
 	rubric_ids = map(lambda x: x.get('id'), Rubric.objects.all().values('id'))
 	rubric_names = map(lambda x: x.get('name'), Rubric.objects.all().values('name'))
 	rubric_htmls = map(lambda x: x.to_df().to_html(index=False, classes="rubric_table", justify="left"), Rubric.objects.all())
@@ -27,7 +28,6 @@ def rubrics_page(request, *args):
 	context = {
 		"rubrics": zip(rubric_ids, rubric_names, rubric_htmls),
 	}
-
 	return render(request, "rubrics.html", context)
 
 @login_required
@@ -42,9 +42,8 @@ def newRubricView(request):
 	rubrica.save()
 	return redirect("rubrics:view", rubric_id=new_id)
 
-class RubricView(LoginRequiredMixin,PermissionRequiredMixin, View):
+class RubricView(LoginRequiredMixin, View):
 
-	permission_required = ('rubrics.view_rubric')
 	def get(self, request, rubric_id):
 		rubrica = get_object_or_404(Rubric, pk=rubric_id)
 		rubrica_df = rubrica.to_df()
@@ -68,7 +67,8 @@ class RubricView(LoginRequiredMixin,PermissionRequiredMixin, View):
 
 		if request.user.has_perm('rubrics.change_rubric'):
 			return render(request, 'rubrics/rubric_editor.html', context)
-
+			
+		# TODO: Permitir ver solo si el usuario tiene el derecho
 		return render(request, 'rubrics/rubric_view.html', context)
 
 	def post(self, request, rubric_id):

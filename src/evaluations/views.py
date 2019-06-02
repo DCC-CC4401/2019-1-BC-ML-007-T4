@@ -3,6 +3,8 @@ from presentations.models import Grade
 from .models import Evaluation
 from django.db.models.query import QuerySet
 
+from django.views import View
+
 # Create your views here.
 
 
