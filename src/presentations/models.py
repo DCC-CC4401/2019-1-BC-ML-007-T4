@@ -20,10 +20,7 @@ class Grade(models.Model):
     evaluator = models.ForeignKey("users.BaseUser", on_delete=models.CASCADE)
     presentation = models.ForeignKey("presentations.Presentation", on_delete=models.CASCADE)
     student = models.ForeignKey("courses.Student", on_delete=models.CASCADE)
-    value = models.FloatField(validators=[
-        MinValueValidator(1.0),
-        MaxValueValidator(7.0)
-    ])
+    value = models.TextField(default="")
     state = models.BooleanField(default=False)
 
     class Meta:
