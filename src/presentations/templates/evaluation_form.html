@@ -33,9 +33,15 @@
   <h1 class="w3-xxxlarge w3-text-red">
     <b>
       Evaluación
-      <i class="w3-text-green">
-        en curso
-      </i>
+      {% if evaluation_status %}
+        <i class="w3-text-green">
+          en curso
+        </i>
+      {% else %}
+        <i class="w3-text-red">
+          cerrada
+        </i>    
+      {% endif %}
     </b>
   </h1>
   <hr style="width:50px;border:5px solid red" class="w3-round">
