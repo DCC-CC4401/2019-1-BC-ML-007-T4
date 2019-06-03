@@ -233,4 +233,16 @@ $(document).ready(function ()
                         }
                 });
         }, 5000);
+
+        // Agregar js para avisar que la duración no está en el intervalo
+        $("#duration-input").keyup(function(event){
+            var min = parseFloat($("#duration-min").html(),10);
+            var max = parseFloat($("#duration-max").html(),10);
+            var time = parseFloat($("#duration-input").val(),10);
+            console.log(min<time)
+            if(!(min <= time && time <= max))
+                $("#discount-warning").html("Se debe descontar por duración.");
+            else
+                $("#discount-warning").html("");
+        })
     });

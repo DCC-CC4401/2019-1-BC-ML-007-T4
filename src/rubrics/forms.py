@@ -24,3 +24,10 @@ class RubricNameForm(forms.Form):
 	'''
 	name = forms.CharField(max_length=50, required=True)
 
+class RubricDurationForm(forms.Form):
+	'''
+	Forma para la duración de la evaluación, en minutos.
+	'''
+	duration_min = forms.DecimalField(max_digits=3)
+	duration_max = forms.DecimalField(max_digits=3)
+

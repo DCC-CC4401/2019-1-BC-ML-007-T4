@@ -2,7 +2,7 @@ from django.shortcuts import render, get_object_or_404
 from django.http import JsonResponse, HttpRequest
 
 from .models import Presentation, Grade
-from .forms import EvaluationCriterionForm
+from .forms import EvaluationCriterionForm, EvaluationDurationForm
 
 # Create your views here.
 
@@ -75,11 +75,17 @@ def evaluation_form_page(request: HttpRequest, evaluation_id: int, group_id: int
         current_presentators.append(presentator.name)
 
     
-    # Obtener la tabla asociada a la rubrica
+    # Obtener la tabla asociada a la rubrica, y sus datos
     rubrica = evaluation.rubric
     rubrica_df = rubrica.to_df()
+    dmin = rubrica.duration_min
+    dmax = rubrica.duration_max
 
+    # forma para los criterios
     criterion_form = EvaluationCriterionForm(table=rubrica_df)
+
+    # forma para el tiempo
+    duration_form = EvaluationDurationForm()
 
     context = {
         "evaluation_status": evaluation.is_open,
@@ -89,7 +95,10 @@ def evaluation_form_page(request: HttpRequest, evaluation_id: int, group_id: int
         "allowed_evaluators": allowed_evaluators,
         "group_members": group_member_statuses,
         "current_presentators": current_presentators,
-        "criterion_form" : criterion_form
+        "criterion_form" : criterion_form,
+        "duration_min" : dmin,
+        "duration_max" : dmax,
+        "duration_form" : duration_form
     }
 
     return render(request, "evaluation_form.html", context);

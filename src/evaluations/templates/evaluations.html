@@ -1,0 +1,123 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block title %}
+
+  <title>
+    Sistema de Evaluación: Evaluaciones
+  </title>
+
+{% endblock title %}
+
+{% block stylesheets %}
+
+  <!-- Evaluations CSS -->
+  <link rel="stylesheet" href={% static 'evaluations/evaluations.css' %}>
+
+{% endblock stylesheets %}
+
+{% block javascript %}
+
+  <!-- Evaluations JS -->
+  <script src={% static 'evaluations/evaluations.js' %}></script>
+
+{% endblock javascript %}
+
+{% block content %}
+  
+  <!-- Portada -->
+  <div class="w3-container" id="portada" style="margin-top:80px; margin-bottom:10px">
+    <h1 class="w3-xxxlarge w3-text-red">
+      <b>
+        Evaluaciones
+      </b>
+    </h1>
+    <hr style="width:50px;border:5px solid red" class="w3-round">
+  </div>
+
+  {% if user.is_staff %}
+  <div class="w3-container">
+    <form action='' method="POST">
+      {% csrf_token %}
+      <button class="w3-button w3-large w3-green w3-right w3-round">
+        Agregar nueva evaluación
+      </button>
+    </form>
+    <br>
+  </div>
+  {% endif %}
+  <!--Seccion  evaluaciones-->
+  {% if not user.is_staff %}
+    <!-- Para evaluadores -->
+    {% regroup obj by presentation.evaluation as evaluation_list %}
+    {% for evaluation in evaluation_list %}
+      {% if not forloop.counter > 10 %}
+      <button onclick="myFunction({{ evaluation.grouper.id }})" class="w3-btn w3-red w3-block w3-margin" style="width: 75%">
+        <h3>
+          {{ evaluation.grouper.course.code }} | {{ evaluation.grouper.id }}
+        </h3>
+      </button>
+
+      <div id= {{ evaluation.grouper.id }} class="w3-hide w3-container w3-pale-red  w3-padding-large w3-margin"style="width: 75%">
+        <table>
+        {% for grade in evaluation.list %}
+          <tr>
+          <td>Grupo: {{ grade.presentation.group.name }}</td>
+          {% if grade.state %}
+            <td>Contestada </td>
+            {% if evaluation.grouper.is_open %}
+              <td><a href='/evaluaiciones/evaluar/{{ evaluation.grouper.id }}/{{ grade.presentation.group.id }}' class="w3-bar-item w3-button w3-hover-white">Modificar</a></td>
+            {% endif %}
+            {% else %}
+            <td>No contestada </td>
+            {% if evaluation.grouper.is_open %}
+              <td><a href='/evaluaiciones/evaluar/{{ evaluation.grouper.id }}/{{ grade.presentation.group.id }}' class="w3-bar-item w3-button w3-hover-white">Contestar</a></td>
+            {% endif %}
+          {% endif %}
+          </tr>
+        {% endfor %}
+        </table>
+      </div>
+      {% endif %}
+
+    {% endfor %}
+  {% else %}
+  <!-- Para admin -->
+    {% for eval in evaluaciones %}
+      <button onclick="myFunction({{ eval.pk}})" class="w3-btn w3-red w3-block w3-margin" style="width: 75%"><h3>
+        Evaluación {{ eval.pk}}</h3></button>
+
+      <div id={{eval.pk}} class="w3-hide w3-container w3-pale-red  w3-padding-large w3-margin"style="width: 75%">
+
+        <p><li>Curso: {{eval.course.code}}</li>
+            <li>Fecha inicio: -</li>
+            <li>Fecha término: -</li>
+            <li class="w3-padding-16"><form action="{% url 'rubrics:copy' rubric_id=eval.rubric.id eval_id=eval.id %}" method="POST">
+              {% csrf_token %}
+              Rúbrica asociada: <button class="w3-button w3-white w3-border w3-border-red w3-round-large">{{eval.rubric.name}}</button>
+            </form></li>
+
+        </p>
+
+        <div class="w3-container">
+          <form class="w3-third w3-left" action="{% url 'presentations:form'  evaluation_id=eval.id group_id=1 %}" method="GET">
+            <button class="w3-button w3-large w3-red w3-margin-left w3-round">Empezar Evaluación</button>
+          </form>
+          <form class="w3-third w3-right" action="" method="POST"> 
+          <button class="w3-button w3-white w3-border w3-border-red w3-round-large">Exportar puntajes</button>
+          </form>
+        </div>
+
+        <form class="w3-padding-16" action="" method="POST">
+          <button class="w3-button w3-large w3-red w3-right w3-round">Eliminar</button>
+        </form>
+      </div>
+  {% endfor %}
+  {% endif %}
+
+  
+
+  
+
+{% endblock content %}
