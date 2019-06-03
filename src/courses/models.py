@@ -25,10 +25,10 @@ class Course(models.Model):
     def __str__(self):
         string_semester = ""
         if self.semester == 1:
-            string_semester = "Spring"
+            string_semester = "Primavera"
         else:
-            string_semester = "Autumn"
-        return self.code + "-" + str(self.section) + "__" + string_semester + "-" + str(self.year)
+            string_semester = "Otoño"
+        return self.code + "-" + str(self.section) + " " + string_semester + "-" + str(self.year)
 
     class Meta:
 

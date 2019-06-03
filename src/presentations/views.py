@@ -60,9 +60,6 @@ def evaluation_form_page(request, evaluation_id, group_id, *args):
         group_member_status = "pending"
 
         for other_presentation in all_presentations:
-            print(all_grades.filter(presentation=other_presentation, student=group_member, state=True).count() == other_presentation.allowed_evaluators.all().count())
-            print(all_grades.filter(presentation=other_presentation, student=group_member, state=True).count())
-            print(other_presentation.allowed_evaluators.all().count())
             if ((other_presentation.presentators.filter(name=group_member.name, rut=group_member.rut).count() != 0) and 
                 (all_grades.filter(presentation=other_presentation, student=group_member, state=True).count() == other_presentation.allowed_evaluators.all().count())):
                 group_member_status = "done"
@@ -84,6 +81,9 @@ def evaluation_form_page(request, evaluation_id, group_id, *args):
     criterion_form = EvaluationCriterionForm(table=rubrica_df)
 
     context = {
+        "group_name": presentation.group.name,
+        "presentation_number": evaluation.id,
+        "course": str(evaluation.course),
         "allowed_evaluators": allowed_evaluators,
         "group_members": group_member_statuses,
         "current_presentators": current_presentators,
