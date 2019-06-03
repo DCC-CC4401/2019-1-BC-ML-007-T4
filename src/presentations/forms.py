@@ -12,7 +12,9 @@ class EvaluationDurationForm(forms.Form):
 class EvaluationCriterionForm(forms.Form):
     '''
     Forma para elegir los niveles de logro de una rúbrica. Cada fila es una selección, donde se
-    elige el nivel de logro.
+    elige el niveltext = forms.CharField(max_length=50, widget=forms.Textarea())
+  col = forms.IntegerField()
+  row = forms.IntegerField() de logro.
     '''
     def __init__(self, *args, **kwargs):
         tabla_df = kwargs.pop('table') # Obtener la tabla
