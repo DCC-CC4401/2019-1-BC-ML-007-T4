@@ -46,7 +46,7 @@
       {%for evaluator,id in evaluators%}
       
     <div class="w3-quarter w3-margin-top">
-      <button onclick="document.getElementById('gestionar').style.display='block'" class="w3-card w3-container w3-hover-shadow evaluators-evaluator-card">
+      <button onclick="document.getElementById('info_{{id}}').style.display='block'" class="w3-card w3-container w3-hover-shadow evaluators-evaluator-card">
         <h3>
           {{evaluator.first_name}} {{evaluator.last_name}}
         </h3>
@@ -54,21 +54,18 @@
         <i class="fas fa-user-alt evaluators-evaluator-icon"></i>
         <p>
           {{evaluator.email}}
-        <br>
-          {{evaluator.username}}
-        </p>
       </button>
     </div>
 
-    <div id="gestionar" class="w3-modal">
+    <div id="info_{{id}}" class="w3-modal">
       <div class="w3-modal-content w3-card-4 w3-animate-zoom evaluators-evaluator-modal">
         <div class="w3-center">
           <br>
-          <span onclick="document.getElementById('gestionar').style.display='none'" class="w3-button w3-xlarge w3-transparent w3-display-topright" title="Close Modal">
+          <span onclick="document.getElementById('info_{{id}}').style.display='none'" class="w3-button w3-xlarge w3-transparent w3-display-topright" title="Close Modal">
             ×
           </span>
           <div class="w3-margin">
-            <button onclick="document.getElementById('editar').style.display='block'" class="w3-button w3-red w3-section w3-padding:10px" type="submit">
+            <button onclick="document.getElementById('edit_{{id}}').style.display='block'" class="w3-button w3-red w3-section w3-padding:10px" type="submit">
               Modificar
             </button>
             <br>
@@ -83,13 +80,14 @@
       </div>
     </div>
 
-    <form method="POST" id="form_{{ id }}" action="{% url 'users:edit' pk=id %}"">
-        {%csrf_token%}
-     <div id="editar" class="w3-modal">
+    
+     <div id="edit_{{id}}" class="w3-modal">
+        <form method="POST" id="form_{{ id }}" action="{% url 'users:edit' pk=id %}">
+            {%csrf_token%}
        <div class="w3-modal-content w3-card-4 w3-animate-zoom evaluators-add-modal">
          <div class="w3-center">
              <br>
-             <span onclick="document.getElementById('editar').style.display='none'" class="w3-button w3-xlarge w3-transparent w3-display-topright" title="Close Modal">
+             <span onclick="document.getElementById('edit_{{id}}').style.display='none'" class="w3-button w3-xlarge w3-transparent w3-display-topright" title="Close Modal">
                ×
              </span>
              <form class="w3-container" action="/action_page.php">
@@ -111,17 +109,18 @@
                            Correo
                          </b>
                        </label>
-                     <input class="w3-input w3-border form-control" type="email" value={{evaluator.email}} name="email" id="email2" required>
-                     <input type="hidden" type="text" name="username" id="usrnm2">
-                     <button onclick="myFunction2()" class="w3-button w3-block w3-red w3-section w3-padding" type="submit">
+                     <input class="w3-input w3-border form-control" type="email" value={{evaluator.email}} name="email" id="email_{{id}}" required>
+                     <input type="hidden" type="text" name="username" id="usrnm_{{id}}">
+                     <button onclick="edit_User({{id}})" class="w3-button w3-block w3-red w3-section w3-padding" type="submit">
                          Editar
                      </button>
                </div>
              </form>
          </div>
        </div>
+      </form>
      </div>
-     </form>
+     
    {%endfor%}
     <!--Caja de agregar-->
     <div class="w3-quarter w3-margin-top">
@@ -164,11 +163,11 @@
                   Correo
                 </b>
               </label>
-              <input class="w3-input w3-border form-control" type="email" placeholder="Ingrese correo" name="email" required>
+              <input class="w3-input w3-border form-control" type="email" placeholder="Ingrese correo" name="email" id="email" required>
               <input type="hidden" type="text" name="password1" id="pss1">
               <input type="hidden" type="text" name="password2" id="pss2">
               <input type="hidden" type="text" name="username" id="usrnm">
-              <button onclick="myFunction()" class="w3-button w3-block w3-red w3-section w3-padding" type="submit">
+              <button onclick="create_User()" class="w3-button w3-block w3-red w3-section w3-padding" type="submit">
                 Agregar
               </button>
             </div>
@@ -182,19 +181,17 @@
   {% for message in messages %}
   <li class="{{ message.tags }}">{{ message }}</li>
   {% endfor %}
-<script> function myFunction() {
+
+  <script>
+    function create_User() {
     var randomstring = Math.random().toString(36).slice(-8);
     document.getElementById("pss1").value=randomstring;
     document.getElementById("pss2").value=randomstring;
-    var firstname = document.getElementById("fn").value.toLowerCase();
-    var lastname = document.getElementById("ln").value.toLowerCase();
-    document.getElementById("usrnm").value = firstname.slice(0,firstname.length/2+1)+lastname.slice(0,lastname.length/2+1);
+    document.getElementById("usrnm").value = document.getElementById("email").value;
   }
-</script>
-<script> function myFunction2() {
-    var firstname = document.getElementById("fn2").value.toLowerCase();
-    var lastname = document.getElementById("ln2").value.toLowerCase();
-    document.getElementById("usrnm2").value = firstname.slice(0,firstname.length/2+1)+lastname.slice(0,lastname.length/2+1);
+
+function edit_User(id) {
+    document.getElementById("usrnm_"+id.toString()).value = document.getElementById("email_"+id.toString()).value;
   }
-</script>
+  </script>
 {% endblock content %}

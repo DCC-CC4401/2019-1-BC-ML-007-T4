@@ -7,6 +7,8 @@ import io
 class Rubric(models.Model):
     name = models.TextField(max_length=50)
     table = models.TextField(max_length=2000)
+    duration_min = models.FloatField()
+    duration_max = models.FloatField()
 
     def to_df(self):
     	return pd.read_csv(io.StringIO(self.table), header=0, sep=',')

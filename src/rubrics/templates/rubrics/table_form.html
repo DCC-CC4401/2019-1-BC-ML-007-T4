@@ -1,0 +1,77 @@
+<form id="tabla-form" onsubmit="return validateForm()" method="POST">
+  {% csrf_token %}
+  <div class="w3-container">
+  <div class="w3-twothird w3-container">
+    <h2 class="w3-xxlarge w3-text-red">
+      <div class="editable-text"> {{ name_form.name.value}}</div>
+      <div class="edit-text" style="display: none;">
+        <div class="w3-content">{{ name_form.name.errors }}{{name_form.name}} </div>
+        <div class="w3-row">
+          <div class="w3-half"> <button type="button" class="btn btn-accept"><i class="fas fa-check"> </i></button> </div>
+          <div class="w3-half"> <button type="button" class="btn btn-cancel"><i class="fas fa-times"></i></button> </div>
+        </div>
+      </div>
+    </h2>
+  </div>
+  </div>
+  <div class="w3-container">
+    <div class="w3-twothird w3-padding-16">
+      <div class="w3-container">
+        <div class="w3-third" style="padding-right: 5%;"> <b> Duración mínima (min) </b>{{time_form.duration_min.errors}}{{time_form.duration_min}}</div>
+        <div class="w3-third" style="padding-right: 5%;"> <b> Duración máxima (min) </b>{{time_form.duration_max.errors}}{{time_form.duration_max}}</div>
+      </div>
+      </div>
+    <div class="w3-third w3-padding-16"> <h5> Puntaje: <i id='puntaje'> </i></span> </h5> </div>
+  </div>
+  <div class="w3-content table-responsive">
+    <table>
+      <tr>
+        <th> Criterio </th>
+        {% for nivel_logro in nlogro_forms %}
+        <th>
+          <div class="editable-text"> {{ nivel_logro.nlogro.value}}</div>
+          <div class="edit-text" style="display: none;">
+            <div class="w3-content">{{ nivel_logro.nlogro.errors }}{{nivel_logro.nlogro}} </div>
+            <div class="w3-row">
+              <div class="w3-half"> <button type="button" class="btn btn-accept"><i class="fas fa-check"> </i></button> </div>
+              <div class="w3-half"> <button type="button" class="btn btn-cancel"><i class="fas fa-times"></i></button> </div>
+            </div>
+          </div>
+        </th>
+        {% endfor %}
+        <th><button type="button" class="btn btn-add-col"><i class="fas fa-plus"></i></button> </th>
+      </tr>
+      <tbody id="table-rows">
+        {% for row in rows_forms %}
+        <tr>
+          {% for entry in row%}
+          <td>
+            <div class="editable-text"> {{entry.text.value}}</div>
+            <div class="edit-text" style="display: none;">
+              <div class="w3-content">{{ entry.text.errors }}{{entry.text}} </div>
+              <div class="w3-row">
+                <div class="w3-half"> <button type="button" class="btn btn-accept"><i class="fas fa-check"> </i></button> </div>
+                <div class="w3-half"> <button type="button" class="btn btn-cancel"><i class="fas fa-times"></i></button> </div>
+              </div>
+            </div>
+          </td>
+          {% endfor %}
+          <td><button type="button" class="btn btn-del-row"><i class="fas fa-trash-alt"></i></button> </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+
+      <tr>
+        <td><button type="button" class="btn btn-add-row"><i class="fas fa-plus"></i></button> </td>
+
+        {% for nivel_logro in nlogro_forms %}
+        <td><button type="button" class="btn btn-del-col"><i class="fas fa-trash-alt"></i></button> </td>
+        {% endfor %}
+        <td style="background-color: #FFF"> </td>
+      </tr>
+    </table>
+  </div>
+  <div class="w3-content">
+    <button class="w3-half"> Guardar Cambios</button>
+  </div>
+</form>
