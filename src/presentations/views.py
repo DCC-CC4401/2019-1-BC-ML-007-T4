@@ -8,27 +8,31 @@ def evaluation_form_page(request, evaluation_id, group_id, *args):
 
     presentation: Presentation = get_object_or_404(Presentation, evaluation_id=evaluation_id, group_id=group_id)
 
-    presentators = presentation.presentators
+    presentators = presentation.presentators.all()
 
     evaluation: Evaluation = presentation.evaluation
 
-    allowed_evaluators_set = presentation.allowed_evaluators.all()
+    all_presentations = evaluation.presentation_set.all()
 
-    allowed_evaluators = []
+    allowed_evaluators_set = presentation.allowed_evaluators.all()
 
     group_members = presentation.group.student_set.all()
 
-    group_member_statuses = []
-
     grades = presentation.grade_set.all()
 
-    answered = grades.filter(state=True, evaluator=request.user).count() == grades.filter(evaluator=request.user).count()
+    # Constructs the allowed evaluators' info, including their evaluation status
+    allowed_evaluators = []
 
     for evaluator in allowed_evaluators_set:
 
-        evaluator_answered_grades = grades.filter(state=True, evaluator=evaluator, presentation=presentation).count()
+        evaluator_answered_grades = 0
+        evaluator_total_grades = 0
 
-        evaluator_total_grades = grades.filter(evaluator=evaluator, presentation=presentation).count()
+        for presentator in presentators:
+
+            evaluator_answered_grades += grades.filter(state=True, evaluator=evaluator, presentation=presentation, student=presentator).count()
+
+            evaluator_total_grades += grades.filter(evaluator=evaluator, presentation=presentation, student=presentator).count()
 
         evaluator_expected_grades = presentators.all().count()
 
@@ -41,11 +45,24 @@ def evaluation_form_page(request, evaluation_id, group_id, *args):
 
         allowed_evaluators.append((evaluator.username, evaluator_status))
 
+    # Constructs the group members' info, including their presentation statuses
+    group_member_statuses = []
+
+    for group_member in group_members:
+        
+        group_member_status = "pending"
+
+        for other_presentation in all_presentations:
+            if other_presentation != presentation and grades.filter(presentation=other_presentation, student=group_member).count() != 0:
+                group_member_status = "done"
+                break
+
+        group_member_statuses.append((group_member.name, group_member_status))
+
     context = {
         "allowed_evaluators": allowed_evaluators,
-        "group_members": group_members,
+        "group_members": group_member_statuses,
         "presentation": presentation,
-        "answered": answered,
-    };
+    }
 
     return render(request, "evaluation_form.html", context);
