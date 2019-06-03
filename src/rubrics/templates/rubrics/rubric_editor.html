@@ -19,9 +19,10 @@
 
 <h1 class="w3-xxxlarge w3-text-red" style="margin: 2%;"><b>Ficha de rúbrica</b></h1>
 
-<form method="POST">
+<form id="tabla-form" onsubmit="return validateForm()" method="POST">
   {% csrf_token %}
-  <div class="w3-third w3-container">
+  <div class="w3-container">
+  <div class="w3-twothird w3-container">
     <h2 class="w3-xxlarge w3-text-red">
       <div class="editable-text"> {{ name_form.name.value}}</div>
       <div class="edit-text" style="display: none;">
@@ -34,7 +35,8 @@
     </h2>
   </div>
 
-
+  <div class="w3-third w3-padding-16"> <h5> Puntaje: <i id='puntaje'> </i></span> </h5> </div>
+  </div>
   <div class="w3-content table-responsive">
     <table>
       <tr>
