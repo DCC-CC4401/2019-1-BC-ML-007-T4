@@ -20,3 +20,13 @@ def evaluations_page(request, *args):
             'obj' : grades
         }
         return render(request, "evaluations.html", context)
+
+def newEvaluationView(request):
+	try:
+		old_id = Evaluation.objects.latest('id').id
+	except ObjectDoesNotExist:
+		old_id = 0
+	new_id = old_id +  1
+	evaluation = Evaluation(id=new_id)
+	evaluation.save()
+	return redirect("rubrics:view", rubric_id=new_id)
