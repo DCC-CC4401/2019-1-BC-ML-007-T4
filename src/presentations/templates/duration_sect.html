@@ -1,0 +1,11 @@
+<div class="w3-panel w3-margin-bottom w3-card-4 w3-padding-16 w3-twothird w3-right" style="margin-right: 1.8%">
+	{% if user.is_staff %}
+	<div style="margin-left:21%"><i class="far fa-clock"></i>Duración esperada (min):
+	  <span id="duration-min" style="width:20%; display:inline; margin-left: 5%"> {{duration_min}} </span> - 
+	  <span id="duration-max" style="width:20%; display:inline;"> {{duration_max}} </span>
+	</div>
+	{% endif %}
+  <div style="margin-left:21%"><i class="far fa-clock"></i> Duración de la presentación (min): {{duration_form.duracion}}{{duration_form.errors}}
+</div>
+<div> <b id="discount-warning" style="color: red;"></b> </div>
+</div>

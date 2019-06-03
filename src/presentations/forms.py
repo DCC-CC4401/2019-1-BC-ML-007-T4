@@ -1,6 +1,14 @@
 from django import forms
 import pandas as pd
 
+class EvaluationDurationForm(forms.Form):
+  duracion = forms.DecimalField(max_digits=3, widget=forms.NumberInput(attrs={
+                        'class' : "w3-input w3-border w3-round",
+                        'size'  : "1",
+                        'style' : "width:20%; display:inline; margin-left: 5%",
+                        'id'  : 'duration-input'
+    }))
+
 class EvaluationCriterionForm(forms.Form):
     '''
     Forma para elegir los niveles de logro de una rúbrica. Cada fila es una selección, donde se
@@ -26,5 +34,5 @@ class CriterionWidg(forms.RadioSelect):
     '''
     Widget para mostrar un criterio y sus niveles de logro
     '''
-    template_name = 'select_criterion.html'
-    option_template_name = 'select_criterion_option.html'
+    template_name = 'criterions/select_criterion.html'
+    option_template_name = 'criterions/select_criterion_option.html'
