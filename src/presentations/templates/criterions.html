@@ -1,15 +1,3 @@
-{% block stylesheets %}
-
-<link rel="stylesheet" type="text/css" href="{% static 'evaluations/evaluations.css' %}">
-
-{% endblock stylesheets %}
-
-{% block javascript %}
-
-<script src="{% static 'evaluations/evaluations.js' %}"></script>
-
-{% endblock javascript %}
-
 {% for crit in criterion_form %}
 	{{crit}}
 {% endfor %}

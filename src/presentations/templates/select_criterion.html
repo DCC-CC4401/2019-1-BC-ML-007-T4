@@ -1,14 +1,19 @@
 <!-- Template para mostrar una selección de nivel de logro -->
 {% with id=widget.attrs.id %}
-
+<div>
 <div class="w3-panel  w3-margin-bottom">
-<ul {% if id %} id="{{ id }}"{% endif %} {% if widget.attrs.class %} class="{{ widget.attrs.class }} w3-ul w3-light-grey w3-center w3-card-4"{% endif %}>
+<ul class="w3-ul w3-light-grey w3-center w3-card-4" {% if id %} id="{{ id }}"{% endif %}>
 	
-	<li class="criterion-header w3-orange w3-xlarge w3-padding-32">{{widget.label}}<i class="far fa-check-circle"></i></li>
+	<li class="criterion-header w3-orange w3-xlarge w3-padding-32">{{widget.attrs.label}} 
+		<!-- <i class="far fa-check-circle"></i> --> 
+		<i class="fas fa-exclamation-circle"></i><i class="w3-medium"> falta seleccionar</i></li>
 
 	{% for group, options, index in widget.optgroups %}
 		{% for option in options %}
-	    	<li class="criterion-option w3-padding-16">{% include option.template_name with widget=option %}</li>
+	    	<li class="option w3-padding-16">{% include option.template_name with widget=option %}</li>
 	    {% endfor %}
     {% endfor %}
-</ul>{% endwith %}
+</ul>
+</div>
+</div>
+{% endwith %}
