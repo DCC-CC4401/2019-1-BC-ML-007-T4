@@ -1,0 +1,59 @@
+
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block stylesheets %}
+
+<link rel="stylesheet" type="text/css" href="{% static 'rubrics/view/rubric_editor.css' %}">
+
+{% endblock stylesheets %}
+
+{% block javascript %}
+
+<script src="{% static 'rubrics/view/rubric_editor.js' %}"></script>
+
+{% endblock javascript %}
+
+{% block content %}
+
+<h1 class="w3-xxxlarge w3-text-red" style="margin: 2%;"><b>Ficha de rúbrica</b></h1>
+
+  <div class="w3-third w3-container">
+    <h2 class="w3-xxlarge w3-text-red">
+      <div> {{ name_form.name.value}}</div>
+    </h2>
+  </div>
+
+
+  <div class="w3-content table-responsive">
+    <table>
+      <tr>
+        <th> Criterio </th>
+        {% for nivel_logro in nlogro_forms %}
+        <th>
+          <div> {{ nivel_logro.nlogro.value}}</div>
+        </th>
+        {% endfor %}
+      </tr>
+      <tbody id="table-rows">
+        {% for row in rows_forms %}
+        <tr>
+          {% for entry in row%}
+          <td>
+            <div> {{entry.text.value}}</div>
+          </td>
+          {% endfor %}
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+
+<form action="{% url 'Rubrics Page' %}" method="GET">
+  {% csrf_token %}
+  <button class="w3-quarter"> Volver </button>
+</form>
+
+{% endblock content %}

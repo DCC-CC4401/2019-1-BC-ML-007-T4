@@ -18,4 +18,4 @@ class Rubric(models.Model):
     	return self.to_df().to_string()
 
     def get_absolute_url(self):
-        return reverse('rubric:rubric', kwargs={'rubrica_id': self.pk})
+        return reverse('rubric:view', kwargs={'rubrica_id': self.pk})
