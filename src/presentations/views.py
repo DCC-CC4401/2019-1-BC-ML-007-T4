@@ -12,13 +12,20 @@ def evaluation_form_page(request, evaluation_id, group_id, *args):
 
     evaluation: Evaluation = presentation.evaluation
 
-    all_presentations = evaluation.presentation_set.all()
+    all_evaluations = evaluation.course.evaluation_set.all()
+    all_presentations = []
+
+    for other_evaluation in all_evaluations:
+        for other_presentation in other_evaluation.presentation_set.all():
+            all_presentations.append(other_presentation)
 
     allowed_evaluators_set = presentation.allowed_evaluators.all()
 
     group_members = presentation.group.student_set.all()
 
     grades = presentation.grade_set.all()
+
+    all_grades = Grade.objects.filter(presentation__evaluation__course=evaluation.course)
 
     # Constructs the allowed evaluators' info, including their evaluation status
     allowed_evaluators = []
@@ -53,16 +60,26 @@ def evaluation_form_page(request, evaluation_id, group_id, *args):
         group_member_status = "pending"
 
         for other_presentation in all_presentations:
-            if other_presentation != presentation and grades.filter(presentation=other_presentation, student=group_member).count() != 0:
+            print(all_grades.filter(presentation=other_presentation, student=group_member, state=True).count() == other_presentation.allowed_evaluators.all().count())
+            print(all_grades.filter(presentation=other_presentation, student=group_member, state=True).count())
+            print(other_presentation.allowed_evaluators.all().count())
+            if ((other_presentation.presentators.filter(name=group_member.name, rut=group_member.rut).count() != 0) and 
+                (all_grades.filter(presentation=other_presentation, student=group_member, state=True).count() == other_presentation.allowed_evaluators.all().count())):
                 group_member_status = "done"
                 break
 
         group_member_statuses.append((group_member.name, group_member_status))
 
+    current_presentators = []
+
+    for presentator in presentators:
+
+        current_presentators.append(presentator.name)
+
     context = {
         "allowed_evaluators": allowed_evaluators,
         "group_members": group_member_statuses,
-        "presentation": presentation,
+        "current_presentators": current_presentators,
     }
 
     return render(request, "evaluation_form.html", context);

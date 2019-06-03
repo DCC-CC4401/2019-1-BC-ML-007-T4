@@ -10,6 +10,9 @@ class Presentation(models.Model):
     allowed_evaluators = models.ManyToManyField("users.BaseUser")
     presentators = models.ManyToManyField("courses.Student")
 
+    def __str__(self):
+        return str(self.evaluation.course) + "-eval" + str(self.evaluation.id) + "-group" + str(self.group.number)
+
     class Meta:
         unique_together = (("evaluation", "group"),)
 

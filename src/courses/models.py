@@ -22,6 +22,14 @@ class Course(models.Model):
     ])
     name = models.CharField(max_length=60)
 
+    def __str__(self):
+        string_semester = ""
+        if self.semester == 1:
+            string_semester = "Spring"
+        else:
+            string_semester = "Autumn"
+        return self.code + "-" + str(self.section) + "__" + string_semester + "-" + str(self.year)
+
     class Meta:
 
         unique_together = (("code", "year", "semester", "section"),)
@@ -33,6 +41,9 @@ class Group(models.Model):
         MinValueValidator(1)
     ])
     name = models.CharField(max_length=60)
+
+    def __str__(self):
+        return str(self.course) + ": " + str(self.number)
 
     class Meta:
 
@@ -46,3 +57,6 @@ class Student(models.Model):
     rut = models.CharField(max_length=10, validators=[
         RegexValidator(regex=r'^[0-9]{1,8}-[0-9,K]{1}$')
     ])
+
+    def __str__(self):
+        return self.name
