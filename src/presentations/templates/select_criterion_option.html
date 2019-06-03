@@ -1,5 +1,5 @@
 <!-- html para mostrar un solo nivel de logro -->
-<input type="{{ widget.type }}" name="{{ widget.name }}"
+<input type="{{ widget.type }}" name="{{ widget.name }}" style="position:fixed;opacity:0"
 {% if widget.value != None %} value="{{ widget.value|stringformat:'s' }}"{% endif %}
 {% include "django/forms/widgets/attrs.html" %}>
 {% if widget.wrap_label %} {{ widget.label }}</label>{% endif %}
