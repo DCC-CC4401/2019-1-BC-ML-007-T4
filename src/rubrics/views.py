@@ -38,7 +38,7 @@ def newRubricView(request):
 	except ObjectDoesNotExist:
 		old_id = 0
 	new_id = old_id +  1
-	rubrica = Rubric(id=new_id, name = "Rubrica {}".format(new_id), table="Criterio,1.0\nCriterio 1,nlogro1\n")
+	rubrica = Rubric(id=new_id, name = "Rubrica {}".format(new_id), table="Criterio,6.0\nCriterio 1,nlogro1\n")
 	rubrica.save()
 	return redirect("rubrics:view", rubric_id=new_id)
 
