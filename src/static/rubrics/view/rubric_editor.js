@@ -9,7 +9,7 @@ function validateForm(){
 var update_score = function ()
 {
     var puntaje = 1;
-    $("[type*='number']").each(function(i,n){
+    $("[name*='nlogro']").each(function(i,n){
         puntaje += parseFloat($(n).val(),10); 
     });
     $("#puntaje").html(puntaje);
@@ -63,23 +63,27 @@ var init_buttons = function ()
 
 
     $('textarea').keypress(function(event){
-        event.preventDefault();
 
         var keycode = (event.keyCode ? event.keyCode : event.which);
         if(keycode == '13'){
+            event.preventDefault();
+
             console.log($(this).parent().find(".btn.btn-accept"))
             $(this).parent().parent().find(".btn.btn-accept").click(); 
         }
     });
 
     $('input').keypress(function(event){
-        event.preventDefault();
+
         var keycode = (event.keyCode ? event.keyCode : event.which);
         if(keycode == '13'){
+            event.preventDefault();
+
             console.log($(this).parent().find(".btn.btn-accept"))
             $(this).parent().parent().find(".btn.btn-accept").click(); 
         }
     });
+
     $(".editable-text")
         .each(function ()
         {
