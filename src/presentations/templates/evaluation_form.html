@@ -13,14 +13,14 @@
 {% block stylesheets %}
 
 <!-- Evaluation Form CSS -->
-<link rel="stylesheet" href={% static 'presentations/evaluations_form.css' %}>
+<link rel="stylesheet" type="text/css" href="{% static 'presentations/presentations.css' %}">
 
 {% endblock stylesheets %}
 
 {% block javascript %}
 
 <!-- Evaluation Form JS -->
-<script src={% static 'presentations/evaluations_form.js' %}></script>
+<script type="text/javascript" src="{% static 'presentations/presentations.js' %}"></script>
 
 {% endblock javascript %}
 
@@ -43,18 +43,34 @@
 
 <!-- Evaluacion -->
 <div class="w3-container w3-center">
-  <p><b>Lambda-Ideas</b> Presentación Tarea 2 <i>CC4401-1/Otoño/2019</i></p>
+  <p><b>{{ group_name }}</b> Presentación {{ presentation_number }} <i>{{ course }}</i></p>
   <br>
 </div>
 
 <div class="w3-panel  w3-margin-bottom">
   <ul class="w3-ul w3-light-grey w3-center w3-card-4">
     <li class="w3-dark-grey w3-xlarge w3-padding-32">Evaluadores <i class="fas fa-user-tie"></i> </li>
-    <li class="w3-padding-16"> Evaluador 1 <i style="margin-left: 10px" class="w3-large fas fa-times"></i>
-    </li>
-    <li class=" w3-padding-16 presentado"> Evaluador 2 <i style="margin-left: 10px" class="far fa-check-circle"></i>
-    </li>
-    <li class="w3-padding-16"> Evaluador 3 <i style="margin-left: 10px" class="w3-large fas fa-times"></i></li>
+    {% for evaluator, status in allowed_evaluators %}
+      <li class="w3-padding-16">
+        {{ evaluator }}
+        {% if status == "done" %}
+          <i style="margin-left: 10px" class="presentado far fa-check-circle"></i>
+          <i class="presentado w3-small">
+            ya evaluó
+          </i>
+        {% elif status == "evaluating" %}
+          <i style="margin-left: 10px" class="fa fa-spinner fa-lg fa-spin"></i>
+          <i class="w3-small">
+            evaluando
+          </i>
+        {% else %}
+          <i style="margin-left: 10px" class="w3-large fas fa-times"></i>
+          <i class="w3-small">
+            aún no evalúa
+          </i>
+        {% endif %}
+      </li>
+    {% endfor %}
     <li class="opcion w3-padding-16"> Agregar otro <i style="margin-left: 10px" class="fas fa-user-plus"></i>
     </li>
   </ul>
@@ -64,17 +80,29 @@
   <div class="w3-half w3-margin-bottom ">
     <ul class="w3-ul w3-light-grey w3-center w3-card-4">
       <li class="w3-dark-grey w3-xlarge w3-padding-32">Miembros del equipo <i class="fas fa-user-friends"></i></li>
-      <li class="presentado w3-padding-16">Pablo Aliaga <i class="far fa-check-circle"></i> <i class="w3-small">ya presentó</i></li>
-      <li class="w3-padding-16">Bastián Matamala</li>
-      <li class="presentado w3-padding-16">Camila Quilape <i class="far fa-check-circle"></i><i class="w3-small">ya presentó</i></li>
-      <li class=" w3-padding-16">Andrea Park</li>
+      {% for student, status in group_members %}
+        <li class="w3-padding-16">
+          {{ student }}
+          {% if status == "done" %}
+            <i class="presentado far fa-check-circle"></i>
+            <i class="presentado w3-small">
+              ya presentó
+            </i>
+          {% endif %}
+        </li>
+      {% endfor %}
     </ul>
   </div>
 
   <div class="w3-half w3-margin-bottom ">
     <ul class="w3-ul w3-light-grey w3-center w3-card-4">
       <li class="w3-dark-grey w3-xlarge w3-padding-32">Miembros que presentan <i class="fas fa-chalkboard-teacher"></i></li>
-      <li class="w3-padding-16">Andrea Park <i style="margin-left: 10px" class="w3-large fas fa-times"></i></li>
+      {% for presentator in current_presentators %}
+        <li class="w3-padding-16">
+          {{ presentator }}
+          <i style="margin-left: 10px" class="w3-large fas fa-times"></i>
+        </li>
+      {% endfor %}
       <li class=" opcion w3-padding-16" id="mas"> Agregar otro <i style="margin-left: 10px" class="fas fa-user-plus"></i></li>
 
     </ul>
@@ -83,162 +111,9 @@
 
 <div class="w3-container w3-center">
   <p>Seleccione el nivel de logro alcanzado por el grupo en cada ámbito</p>
-</div>
 
-<div class="w3-panel  w3-margin-bottom">
-  <ul class="w3-ul w3-light-grey w3-center w3-card-4">
-    <li class="w3-red w3-xlarge w3-padding-32">Contenidos <i class="far fa-check-circle"></i></li>
-    <li class="opcion w3-padding-16"> No incluye las interfaces
-      solicitadas
-    </li>
-    <li class="opcion w3-padding-16 selected"> Faltan la mayoria de las
-      interfaces
-    </li>
-    <li class="opcion w3-padding-16"> Solo faltan 1 o 2 interfaces </li>
-    <li class="opcion w3-padding-16"> Incluye todas las interfaces
-      solicitadas
-    </li>
-  </ul>
-</div>
+{% include "criterions.html" %}
 
-
-
-
-<div class="w3-panel w3-margin-bottom">
-  <ul class="w3-ul w3-light-grey w3-center w3-card-4">
-    <li class="w3-orange w3-xlarge w3-padding-32">Calidad del material
-      <i class="fas fa-exclamation-circle"></i><i class="w3-medium"> falta seleccionar</i></li>
-    <li class="opcion w3-padding-16">Presentación con muchos
-      errores ortográficos, todas
-      las imágenes son de baja
-      resolución
-    </li>
-    <li class="opcion w3-padding-16">Algunos errores
-      ortográficos, casi todas las
-      imágenes son de baja
-      resolución
-    </li>
-    <li class="opcion w3-padding-16">Pocos errores ortográficos,solo algunas imágenes sonde baja resolución
-    </li>
-    <li class="opcion w3-padding-16">Pocos errores ortográficos,
-      todas las imágenes son de
-      buena resolución
-    </li>
-  </ul>
-</div>
-
-<div class="w3-panel w3-margin-bottom">
-  <ul class="w3-ul w3-light-grey w3-center w3-card-4">
-    <li class="w3-red w3-xlarge w3-padding-32">Relación con requisitos
-      funcionales <i class="far fa-check-circle"></i>
-
-    </li>
-    <li class="opcion w3-padding-16">Solo describe las
-      interfaces, sin mencionar
-      requisito alguno
-
-    </li>
-    <li class="opcion w3-padding-16">Solo para algunas de las
-      interfaces explica cómo
-      satisfacen los requisitos
-      funcionales
-
-    </li>
-    <li class="opcion w3-padding-16 selected">Para casi todas las
-      interfaces, explica cómo
-      satisfacen los requisitos
-      funcionales
-    </li>
-    <li class="opcion w3-padding-16">Explica claramente como
-      cada interfaz satisface los
-      requisitos funcionales
-
-    </li>
-  </ul>
-</div>
-
-<div class="w3-panel w3-margin-bottom">
-  <ul class="w3-ul w3-light-grey w3-center w3-card-4">
-    <li class="w3-red w3-xlarge w3-padding-32">Organización de la
-      información <i class="far fa-check-circle"></i>
-
-    </li>
-    <li class="opcion w3-padding-16">No se entiende la
-      presentación porque no haysecuencia lógica de
-      información
-    </li>
-    <li class="opcion w3-padding-16">Es difícil seguir la
-      presentación, porque el
-      presentador “salta” entre
-      diapositivas
-
-    </li>
-    <li class="opcion w3-padding-16">La información está
-      presentada en una
-      secuencia lógica
-
-    </li>
-    <li class="opcion w3-padding-16 selected">La información es
-      presentada en una forma
-      lógica e interesante
-
-    </li>
-  </ul>
-</div>
-
-<div class="w3-panel w3-margin-bottom">
-  <ul class="w3-ul w3-light-grey w3-center w3-card-4">
-    <li class="w3-red w3-xlarge w3-padding-32">Forma <i class="far fa-check-circle"></i>
-
-    </li>
-    <li class="opcion w3-padding-16">No se entiende lo que dice(en términos fonéticos y
-      cinéticos)
-
-    </li>
-    <li class="opcion w3-padding-16">Se entiende lo que dice la
-      de manera parcial (su
-      cuerpo no acompaña sus
-      palabras)
-
-    </li>
-    <li class="opcion w3-padding-16 selected">Se da a entender,
-      presentando de manera
-      eficiente y adecuado
-      lenguaje corporal
-
-    </li>
-    <li class="opcion w3-padding-16">Se da a entender siempre,
-      destacando en su forma
-      (pausas, dicción, contacto
-      visual, gesticulación, otros)
-
-    </li>
-  </ul>
-</div>
-
-<div class="w3-panel w3-margin-bottom">
-  <ul class="w3-ul w3-light-grey w3-center w3-card-4">
-    <li class="w3-red w3-xlarge w3-padding-32">Entusiasmo <i class="far fa-check-circle"></i>
-
-    </li>
-    <li class="opcion w3-padding-16">No muestra interés en su
-      entrega
-
-    </li>
-    <li class="opcion w3-padding-16">Se muestra algo negativo
-      acerca de su entrega
-
-    </li>
-    <li class="opcion w3-padding-16 selected">Ocasionalmente habla en
-      forma positiva
-
-    </li>
-    <li class="opcion w3-padding-16">Habla en forma positiva
-      durante casi toda la
-      presentación
-    </li>
-  </ul>
-</div>
 
 <div class="w3-panel w3-margin-bottom w3-card-4 w3-padding-16 w3-half w3-right" style="margin-right: 1.8%">
   <span style="margin-left:21%"><i class="far fa-clock"></i> Hora final

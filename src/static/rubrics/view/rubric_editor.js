@@ -1,3 +1,26 @@
+function validateForm(){
+    form = $("#tabla-form");
+    puntaje = update_score();
+    if(!(Math.abs(puntaje - 7.0) < Number.EPSILON))
+        return false;
+    return true;   
+}
+
+var update_score = function ()
+{
+    var puntaje = 1;
+    $("[type*='number']").each(function(i,n){
+        puntaje += parseFloat($(n).val(),10); 
+    });
+    $("#puntaje").html(puntaje);
+    if(Math.abs(puntaje - 7.0) < Number.EPSILON)
+        $("#puntaje").css('color', 'black')
+    else
+        $("#puntaje").css('color', 'red')
+    return puntaje
+
+}
+
 var new_entry_markup = function ()
 {
     markup = "<td>" +
@@ -14,122 +37,151 @@ var new_entry_markup = function ()
     return markup;
 }
 
-var init_buttons = function ()
+
+var get_sum_of_cols = function ()
 {
 
-    $( "textarea" )
-        .focusout( function ( event )
+}
+
+var init_buttons = function ()
+{
+    $("textarea")
+        .focusout(function (event)
         {
-            if ( $( ".btn:hover" )
-                .length )
+            if ($(".btn:hover")
+                .length)
                 return;
-            $( this )
-                .parents( ".edit-text" )
-                .hide( "fast" );
-            $( this )
-                .parents( ".edit-text" )
+            $(this)
+                .parents(".edit-text")
+                .hide("fast");
+            $(this)
+                .parents(".edit-text")
                 .prev()
-                .show( "fast" );
+                .show("fast");
 
-        } );
+        });
 
-    $( ".editable-text" )
-        .each( function ()
+
+    $('textarea').keypress(function(event){
+        event.preventDefault();
+
+        var keycode = (event.keyCode ? event.keyCode : event.which);
+        if(keycode == '13'){
+            console.log($(this).parent().find(".btn.btn-accept"))
+            $(this).parent().parent().find(".btn.btn-accept").click(); 
+        }
+    });
+
+    $('input').keypress(function(event){
+        event.preventDefault();
+        var keycode = (event.keyCode ? event.keyCode : event.which);
+        if(keycode == '13'){
+            console.log($(this).parent().find(".btn.btn-accept"))
+            $(this).parent().parent().find(".btn.btn-accept").click(); 
+        }
+    });
+    $(".editable-text")
+        .each(function ()
         {
-            $( this )
-                .unbind( 'click' );
-            $( this )
-                .click( function ( event )
+            $(this)
+                .unbind('click');
+            $(this)
+                .click(function (event)
                 {
-                    $( this )
-                        .hide( "fast" );
-                    $( this )
+                    $(this)
+                        .hide("fast");
+                    $(this)
                         .next()
-                        .show( "fast" );
-                    $( this )
+                        .show("fast");
+                    $(this)
                         .next()
-                        .find( "textarea" )
+                        .find("textarea")
                         .focus();
-                } );
-        } );
+                    $(this)
+                        .next()
+                        .find("input")
+                        .focus();
+                });
+        });
 
 
-    $( ".btn.btn-cancel" )
-        .each( function ()
+    $(".btn.btn-cancel")
+        .each(function ()
         {
 
-            $( this )
-                .unbind( 'click' );
-            $( this )
-                .click( function ( event )
+            $(this)
+                .unbind('click');
+            $(this)
+                .click(function (event)
                 {
-                    $( this )
-                        .parents( ".edit-text" )
-                        .hide( "fast" );
-                    $( this )
-                        .parents( ".edit-text" )
+                    $(this)
+                        .parents(".edit-text")
+                        .hide("fast");
+                    $(this)
+                        .parents(".edit-text")
                         .prev()
-                        .show( "fast" );
-                } );
-        } );
+                        .show("fast");
+                });
+        });
 
-    $( ".btn.btn-accept" )
-        .each( function ()
+    $(".btn.btn-accept")
+        .each(function ()
         {
-            $( this )
-                .unbind( 'click' );
-            $( this )
-                .click( function ( event )
+            $(this)
+                .unbind('click');
+            $(this)
+                .click(function (event)
                 {
-                    var current_val = $( this )
-                        .parents( ".edit-text" )
-                        .find( "textarea" )
+                    var current_val = $(this)
+                        .parents(".edit-text")
+                        .find("textarea")
                         .val();
-                    if ( typeof ( current_val ) == "undefined" ) // Es numerico
-                        current_val = $( this )
-                        .parents( ".edit-text" )
-                        .find( "input" )
+                    if (typeof (current_val) == "undefined") // Es numerico
+                        current_val = $(this)
+                        .parents(".edit-text")
+                        .find("input")
                         .val();
-                    $( this )
-                        .parents( ".edit-text" )
+                    $(this)
+                        .parents(".edit-text")
                         .prev()
-                        .text( current_val );
+                        .text(current_val);
 
-                    $( this )
-                        .parents( ".edit-text" )
-                        .hide( "fast" );
-                    $( this )
-                        .parents( ".edit-text" )
+                    $(this)
+                        .parents(".edit-text")
+                        .hide("fast");
+                    $(this)
+                        .parents(".edit-text")
                         .prev()
-                        .show( "fast" );
-                } );
-        } );
+                        .show("fast");
+                    update_score();
+                });
+        });
 
-    $( ".btn.btn-add-col" )
-        .each( function ()
+    $(".btn.btn-add-col")
+        .each(function ()
         {
-            $( this )
-                .unbind( 'click' );
-            $( this )
-                .click( function ( event )
+            $(this)
+                .unbind('click');
+            $(this)
+                .click(function (event)
                 {
-                    var ncols = $( 'table' )
-                        .find( 'th' )
+                    var ncols = $('table')
+                        .find('th')
                         .length - 1;
-                    var nrows = $( 'table' )
-                        .find( "tr" )
+                    var nrows = $('table')
+                        .find("tr")
                         .length - 1;
-                    console.log( $( 'table' )
-                        .find( 'tr' ) )
-                    console.log( nrows )
-                    console.log( ncols )
+                    console.log($('table')
+                        .find('tr'))
+                    console.log(nrows)
+                    console.log(ncols)
 
-                    $( 'table' )
-                        .find( 'tr' )
-                        .each( function ( index )
+                    $('table')
+                        .find('tr')
+                        .each(function (index)
                         {
                             markup = "";
-                            if ( index == 0 ) // Header
+                            if (index == 0) // Header
                                 markup += "<th>" +
                                 '<div class="editable-text" style=""> 0 </div>' +
                                 '<div class="edit-text" style="display: none;">' +
@@ -140,98 +192,98 @@ var init_buttons = function ()
                                 '	</div>' +
                                 '</div> ' +
                                 "</th>";
-                            else if ( index == nrows )
+                            else if (index == nrows)
                                 markup += '<td><button type="button" class="btn btn-del-col"><i class="fas fa-trash-alt"></i></button> </td>'
                             else
                                 markup += new_entry_markup()
 
 
-                            var $last_entry = $( this )
+                            var $last_entry = $(this)
                                 .children()
-                                .eq( ncols );
-                            $last_entry.before( markup );
+                                .eq(ncols);
+                            $last_entry.before(markup);
 
-                            console.log( $( this )
-                                .children() )
+                            console.log($(this)
+                                .children())
                             init_buttons()
-                        } );
-                } );
-        } );
+                        });
+                });
+        });
 
-    $( ".btn.btn-add-row" )
-        .each( function ()
+    $(".btn.btn-add-row")
+        .each(function ()
         {
-            $( this )
-                .unbind( 'click' );
-            $( this )
-                .click( function ( event )
+            $(this)
+                .unbind('click');
+            $(this)
+                .click(function (event)
                 {
 
-                    var ncols = $( 'table' )
-                        .find( 'th' )
+                    var ncols = $('table')
+                        .find('th')
                         .length - 1;
 
                     var markup = "<tr>";
-                    for ( var i = 0; i < ncols; i++ )
+                    for (var i = 0; i < ncols; i++)
                         markup += new_entry_markup();
 
                     markup += '<td><button type="button" class="btn btn-del-row""><i class="fas fa-trash-alt"></i></button> </td>' +
                         '</tr>';
-                    $( '#table-rows' )
-                        .append( markup );
+                    $('#table-rows')
+                        .append(markup);
                     init_buttons()
-                } );
-        } );
+                });
+        });
 
-    $( ".btn.btn-del-col" )
-        .each( function ()
+    $(".btn.btn-del-col")
+        .each(function ()
         {
-            $( this )
-                .unbind( 'click' );
-            $( this )
-                .click( function ( event )
+            $(this)
+                .unbind('click');
+            $(this)
+                .click(function (event)
                 {
-                    var $td = $( this )
-                        .closest( "td" );
+                    var $td = $(this)
+                        .closest("td");
                     var index = $td.index();
-                    $( 'table' )
-                        .find( 'tr' )
-                        .each( function ()
+                    $('table')
+                        .find('tr')
+                        .each(function ()
                         {
-                            $( this )
+                            $(this)
                                 .children()
-                                .eq( index )
+                                .eq(index)
                                 .remove()
-                        } );
-                } );
-        } );
+                        });
+                });
+        });
 
-    $( ".btn.btn-del-row" )
-        .each( function ()
+    $(".btn.btn-del-row")
+        .each(function ()
         {
-            $( this )
-                .unbind( 'click' );
-            $( this )
-                .click( function ( event )
+            $(this)
+                .unbind('click');
+            $(this)
+                .click(function (event)
                 {
-                    $( this )
-                        .parents( "tr" )
+                    $(this)
+                        .parents("tr")
                         .remove()
-                } );
-        } );
+                });
+        });
 
 }
 
-$( document )
-    .ready( function ()
+$(document)
+    .ready(function ()
     {
         init_buttons()
-
-        $( "#delete-rubric" )
-            .click( function ()
+        update_score()
+        $("#delete-rubric")
+            .click(function ()
             {
-                var alertdiv = $( '<h3> ¿Estas seguro de querer borrar esta rubrica?</h3>' )
-                    .appendTo( $( '.w3-main' ) )
+                var alertdiv = $('<h3> ¿Estas seguro de querer borrar esta rubrica?</h3>')
+                    .appendTo($('.w3-main'))
                 alertdiv.dialog(
                 {
                     dialogClass: "no-close",
@@ -255,18 +307,18 @@ $( document )
                     {
                         Confirmar: function ()
                         {
-                            $( "#delete-form" )
+                            $("#delete-form")
                                 .submit()
                         },
                         Cancelar: function ()
                         {
-                            $( '#alertblanket' )
-                                .hide( 0 );
-                            $( this )
-                                .dialog( "close" );
+                            $('#alertblanket')
+                                .hide(0);
+                            $(this)
+                                .dialog("close");
                         }
                     }
-                } );
+                });
 
-            } );
-    } );
+            });
+    });
