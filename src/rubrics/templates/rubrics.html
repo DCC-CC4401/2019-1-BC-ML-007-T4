@@ -56,7 +56,7 @@
     {{ html|safe }}
   </div>
   <div class="w3-container">
-    <form action="{% url 'rubrics:view' id %}" method="POST">
+    <form action="{% url 'rubrics:view' id %}" method="GET">
       {% csrf_token %}
       <button class="w3-button w3-large w3-margin-right w3-green w3-left w3-round">
         Editar
