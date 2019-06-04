@@ -2,7 +2,7 @@ from django.shortcuts import render, get_object_or_404
 from django.http import JsonResponse, HttpRequest
 
 from .models import Presentation, Grade
-from .forms import EvaluationCriterionForm, EvaluationDurationForm
+from .forms import EvaluationCriterionForm, EvaluationDurationForm, EvaluatorsListForm
 
 # Create your views here.
 
@@ -87,6 +87,8 @@ def evaluation_form_page(request: HttpRequest, evaluation_id: int, group_id: int
     # forma para el tiempo
     duration_form = EvaluationDurationForm()
 
+    edit_evaluators_form = EvaluatorsListForm(instance=presentation)
+
     context = {
         "evaluation_status": evaluation.is_open,
         "group_name": presentation.group.name,
@@ -98,7 +100,8 @@ def evaluation_form_page(request: HttpRequest, evaluation_id: int, group_id: int
         "criterion_form" : criterion_form,
         "duration_min" : dmin,
         "duration_max" : dmax,
-        "duration_form" : duration_form
+        "duration_form" : duration_form,
+        "edit_evaluators_form": edit_evaluators_form,
     }
 
     return render(request, "evaluation_form.html", context);

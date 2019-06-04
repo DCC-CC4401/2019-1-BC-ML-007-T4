@@ -1,6 +1,8 @@
 from django import forms
 import pandas as pd
 
+from .models import Presentation
+
 class EvaluationDurationForm(forms.Form):
   duracion = forms.DecimalField(max_digits=3, widget=forms.NumberInput(attrs={
                         'class' : "w3-input w3-border w3-round",
@@ -38,3 +40,9 @@ class CriterionWidg(forms.RadioSelect):
     '''
     template_name = 'criterions/select_criterion.html'
     option_template_name = 'criterions/select_criterion_option.html'
+
+class EvaluatorsListForm(forms.ModelForm):
+
+    class Meta:
+        model = Presentation
+        fields = ["allowed_evaluators"]

@@ -83,7 +83,7 @@
         </span>
       </li>
     {% endfor %}
-    <li class="add_evaluator_trigger w3-padding-16"> Agregar otro <i style="margin-left: 10px" class="fas fa-user-plus"></i>
+    <li class="add_evaluator_trigger w3-padding-16"> Editar Lista <i style="margin-left: 10px" class="fas fa-user-plus"></i>
     </li>
   </ul>
 </div>
@@ -94,7 +94,13 @@
     <div class="w3-container">
       <span onclick='$("#add_evaluator_modal").hide();'
       class="w3-button w3-display-topright">&times;</span>
-      
+      <form method="POST">
+        {% csrf_token %}
+        {{ edit_evaluators_form }}
+        <button class="w3-button w3-xlarge w3-red w3-display-bottomright">
+          Aceptar
+        </button>
+      </form>
     </div>
   </div>
 </div> 
