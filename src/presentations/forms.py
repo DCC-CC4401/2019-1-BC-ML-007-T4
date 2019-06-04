@@ -8,7 +8,8 @@ class EvaluationDurationForm(forms.Form):
                         'class' : "w3-input w3-border w3-round",
                         'size'  : "1",
                         'style' : "width:20%; display:inline; margin-left: 5%",
-                        'id'  : 'duration-input'
+                        'id'  : 'duration-input',
+                        'required' : 'true'
     }))
 
 class EvaluationCriterionForm(forms.Form):

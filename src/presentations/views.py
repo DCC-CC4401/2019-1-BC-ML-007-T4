@@ -4,6 +4,8 @@ from django.http import JsonResponse, HttpRequest
 from .models import Presentation, Grade
 from .forms import EvaluationCriterionForm, EvaluationDurationForm, EvaluatorsListForm, PresentatorsListForm
 
+import pandas as pd
+
 # Create your views here.
 
 def evaluation_form_page(request: HttpRequest, evaluation_id: int, group_id: int, *args):
@@ -101,6 +103,7 @@ def evaluation_form_page(request: HttpRequest, evaluation_id: int, group_id: int
     context = {
         "evaluation_status": evaluation.is_open,
         "group_name": presentation.group.name,
+        "group_id" : presentation.group.id,
         "presentation_number": evaluation.id,
         "course": str(evaluation.course),
         "allowed_evaluators": allowed_evaluators,
@@ -115,6 +118,40 @@ def evaluation_form_page(request: HttpRequest, evaluation_id: int, group_id: int
     }
 
     return render(request, "evaluation_form.html", context);
+
+def upload_grade(request, evaluation_id, group_id):
+    if not request.POST:
+        return redirect('presentations:form', evaluation_id=evaluation_id, group_id=group_id)
+
+    presentation: Presentation = get_object_or_404(Presentation, evaluation_id=evaluation_id, group_id=group_id)
+
+    presentators = presentation.presentators.all()
+    evaluation: Evaluation = presentation.evaluation
+
+    # Obtener la tabla asociada a la rubrica, y sus datos
+    rubrica = evaluation.rubric
+    rubrica_df = rubrica.to_df()
+    dmin = rubrica.duration_min
+    dmax = rubrica.duration_max
+
+    # Obtener los presentadores
+
+
+    # forma para los criteriosevaluator
+    criterion_form = EvaluationCriterionForm(request.POST, table=rubrica_df)
+    if criterion_form.is_valid():
+        puntaje_dict = criterion_form.cleaned_data
+
+        puntajes_df = pd.DataFrame.from_dict(puntaje_dict, orient='index')
+
+        for student in presentators:
+            grade = Grade(evaluator=request.user, student=student,
+                presentation=presentation, value=puntajes_df.to_csv(), state=True)
+            grade.save()
+        return redirect('Evaluations Page')
+
+
+
 
 def update_context_view(request: HttpRequest, evaluation_id: int, group_id: int):
     

@@ -177,6 +177,9 @@
 
 {% endif %}
 
+<form action="{% url 'presentations:upload_grade' evaluation_id=presentation_number group_id=group_id %}" method="POST">
+{% csrf_token %}
+
 <div class="w3-container w3-center">
   <p>Seleccione el nivel de logro alcanzado por el grupo en cada ámbito</p>
 
@@ -188,6 +191,7 @@
   <button class="w3-button w3-xlarge w3-red" style="margin-left: 15%"> <i class="fas fa-envelope-open-text"></i> Entregar evaluación</button>
 </div>
 </div>
+</form>
 
 {% endblock content %}
 
