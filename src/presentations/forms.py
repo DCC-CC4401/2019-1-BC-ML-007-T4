@@ -46,3 +46,9 @@ class EvaluatorsListForm(forms.ModelForm):
     class Meta:
         model = Presentation
         fields = ["allowed_evaluators"]
+
+class PresentatorsListForm(forms.ModelForm):
+
+    class Meta:
+        model = Presentation
+        fields = ["presentators"]

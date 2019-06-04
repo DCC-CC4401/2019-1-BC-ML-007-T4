@@ -82,6 +82,11 @@ $(document).ready(function ()
                 }
         );
 
+        $('.add_presentator_trigger').click(function(event){
+                $("#add_presentator_modal").show();
+                }
+        );
+
         old_context = {
                 "allowed_evaluators": [],
                 "current_presentators": [],

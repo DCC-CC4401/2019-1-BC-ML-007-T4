@@ -84,7 +84,7 @@
       </li>
     {% endfor %}
     {% if user.is_staff %}
-      <li class="add_evaluator_trigger w3-padding-16"> Editar Lista <i style="margin-left: 10px" class="fas fa-user-plus"></i>
+      <li class="add_evaluator_trigger w3-padding-16"> Editar Lista <i style="margin-left: 10px" class="fas fa-pen"></i>
       </li>
     {% endif %}
   </ul>
@@ -146,12 +146,36 @@
       {% endfor %}
 
       {% if user.is_staff %}
-        <li class=" opcion w3-padding-16" id="mas"> Agregar otro <i style="margin-left: 10px" class="fas fa-user-plus"></i></li>
+        <li class="add_presentator_trigger w3-padding-16" id="mas"> 
+          Editar Lista
+          <i style="margin-left: 10px" class="fas fa-pen"></i>
+        </li>
       {% endif %}
 
     </ul>
   </div>
 </div>
+
+{% if user.is_staff %}
+
+<!-- The Modal -->
+<div id="add_presentator_modal" class="w3-modal">
+  <div class="w3-modal-content">
+    <div class="w3-container">
+      <span onclick='$("#add_presentator_modal").hide();'
+      class="w3-button w3-display-topright">&times;</span>
+      <form method="POST">
+        {% csrf_token %}
+        {{ edit_presentators_form }}
+        <button class="w3-button w3-xlarge w3-red w3-display-bottomright">
+          Aceptar
+        </button>
+      </form>
+    </div>
+  </div>
+</div> 
+
+{% endif %}
 
 <div class="w3-container w3-center">
   <p>Seleccione el nivel de logro alcanzado por el grupo en cada ámbito</p>
