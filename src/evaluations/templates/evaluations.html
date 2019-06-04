@@ -38,14 +38,35 @@
 
   {% if user.is_staff %}
   <div class="w3-container">
-    <form action='' method="POST">
-      {% csrf_token %}
-      <button class="w3-button w3-large w3-green w3-right w3-round">
+      <button onclick="document.getElementById('agregar').style.display='block'" class="w3-button w3-large w3-green w3-right w3-round">
         Agregar nueva evaluación
       </button>
-    </form>
     <br>
   </div>
+
+  <!-- Caja para agregar evaluaciones -->
+  <form method="POST">
+    {%csrf_token%}
+    <div id="agregar" class="w3-modal">
+      <div class="w3-modal-content w3-card-4 w3-animate-zoom evaluators-add-modal">
+        <div class="w3-center">
+          <br>
+          <span onclick="document.getElementById('agregar').style.display='none'" class="w3-button w3-xlarge w3-transparent w3-display-topright" title="Close Modal">
+            ×
+          </span>
+          <form class="w3-container" action="/action_page.php">
+            <div class="w3-section">
+              {{ form }}
+              <button onclick="" class="w3-button w3-block w3-red w3-section w3-padding" type="submit">
+                Agregar
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </form>
+
   {% endif %}
   <!--Seccion  evaluaciones-->
   {% if not user.is_staff %}
