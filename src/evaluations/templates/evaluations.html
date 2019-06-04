@@ -88,12 +88,12 @@
           {% if grade.state %}
             <td>Contestada </td>
             {% if evaluation.grouper.is_open %}
-              <td><a href='/evaluaiciones/evaluar/{{ evaluation.grouper.id }}/{{ grade.presentation.group.id }}' class="w3-bar-item w3-button w3-hover-white">Modificar</a></td>
+              <td><a href='/evaluaciones/evaluar/{{ evaluation.grouper.id }}/{{ grade.presentation.group.id }}' class="w3-bar-item w3-button w3-hover-white">Modificar</a></td>
             {% endif %}
             {% else %}
             <td>No contestada </td>
             {% if evaluation.grouper.is_open %}
-              <td><a href='/evaluaiciones/evaluar/{{ evaluation.grouper.id }}/{{ grade.presentation.group.id }}' class="w3-bar-item w3-button w3-hover-white">Contestar</a></td>
+              <td><a href='/evaluaciones/evaluar/{{ evaluation.grouper.id }}/{{ grade.presentation.group.id }}' class="w3-bar-item w3-button w3-hover-white">Contestar</a></td>
             {% endif %}
           {% endif %}
           </tr>
