@@ -114,13 +114,26 @@
         <p><li>Curso: {{eval.course.code}}</li>
             <li>Fecha inicio: -</li>
             <li>Fecha término: -</li>
-            <button class="w3-button w3-white w3-border w3-border-red w3-round-large">Rúbrica asociada</button>
-            <button class="w3-button w3-white w3-border w3-border-red w3-round-large">Exportar puntajes</button><br>
+            <li class="w3-padding-16"><form action="{% url 'rubrics:copy' rubric_id=eval.rubric.id eval_id=eval.id %}" method="POST">
+              {% csrf_token %}
+              Rúbrica asociada: <button class="w3-button w3-white w3-border w3-border-red w3-round-large">{{eval.rubric.name}}</button>
+            </form></li>
+
         </p>
 
-        <button class="w3-button w3-large w3-red w3-round">Ver</button>
-        <button class="w3-button w3-large w3-red w3-margin-left w3-round">Modificar</button>
-        <button class="w3-button w3-large w3-red w3-right w3-round">Eliminar</button>
+        <div class="w3-container">
+          <form class="w3-third w3-left" action="{% url 'presentations:form'  evaluation_id=eval.id group_id=1 %}" method="GET">
+            <button class="w3-button w3-large w3-red w3-margin-left w3-round">Empezar Evaluación</button>
+          </form>
+          <form class="w3-third w3-right" action="" method="POST"> 
+          {% csrf_token %}
+          <button class="w3-button w3-white w3-border w3-border-red w3-round-large">Exportar puntajes</button>
+          </form>
+        </div>
+
+        <form class="w3-padding-16" action="" method="POST">
+          <button class="w3-button w3-large w3-red w3-right w3-round">Eliminar</button>
+        </form>
       </div>
   {% endfor %}
   {% endif %}
