@@ -47,3 +47,4 @@ class EditUserView(SuccessMessageMixin,UpdateView):
     model = BaseUser
     fields = ['first_name', 'last_name', 'email', 'username']
     success_url = reverse_lazy('Evaluators Page')
+    success_message = "Usuario modificado"
