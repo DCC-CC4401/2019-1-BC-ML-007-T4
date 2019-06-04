@@ -105,6 +105,7 @@
             <button class="w3-button w3-large w3-red w3-margin-left w3-round">Empezar Evaluación</button>
           </form>
           <form class="w3-third w3-right" action="" method="POST"> 
+          {% csrf_token %}
           <button class="w3-button w3-white w3-border w3-border-red w3-round-large">Exportar puntajes</button>
           </form>
         </div>
