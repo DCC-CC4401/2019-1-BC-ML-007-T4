@@ -17,7 +17,6 @@ import numpy as np
 
 
 @login_required
-@permission_required('rubrics.change_rubric')
 def rubrics_page(request, *args):
 
 	# TODO: Permitir ver solo si el usuario tiene el derecho
@@ -69,7 +68,9 @@ class RubricView(LoginRequiredMixin, View):
 					'nlogro_forms': nlogro_forms,
 					'name_form' : name_form,
 					'time_form' : time_form,
-					'rubrica_id' : rubric_id}
+					'rubrica_id' : rubric_id,
+					'duration_min' : rubrica.duration_min,
+					'duration_max' : rubrica.duration_max}
 
 		if request.user.has_perm('rubrics.change_rubric'):
 			return render(request, 'rubrics/rubric_editor.html', context)

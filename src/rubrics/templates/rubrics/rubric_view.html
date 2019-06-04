@@ -11,7 +11,6 @@
 
 {% block javascript %}
 
-<script src="{% static 'rubrics/view/rubric_editor.js' %}"></script>
 
 {% endblock javascript %}
 
@@ -24,6 +23,16 @@
       <div> {{ name_form.name.value}}</div>
     </h2>
   </div>
+
+  <div class="w3-container">
+    <div class="w3-third w3-left w3-panel w3-margin-bottom w3-card-2 w3-left w3-padding-16"> <h5 class="w3-center"> Puntaje: <i id='puntaje'> </i></span> 7.0 </h5>
+      </div>
+    <div class="w3-half w3-container w3-panel w3-margin-bottom w3-card-2 w3-right w3-padding-16">
+        <div class="w3-half" style="padding-right: 1%;"> <b> Duración mínima (min) </b>{{duration_min}}</div>
+        <div class="w3-half"> <b> Duración máxima (min) </b> {{duration_max}}</div>
+      </div>
+  </div>
+
 
   <div class="w3-content table-responsive">
     <table>
