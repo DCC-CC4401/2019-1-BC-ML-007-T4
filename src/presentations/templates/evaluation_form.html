@@ -33,9 +33,17 @@
   <h1 class="w3-xxxlarge w3-text-red">
     <b>
       Evaluación
-      <i class="w3-text-green">
-        en curso
-      </i>
+      <span id="status_message" class="{% if evaluation_status %} done {% else %} pending {% endif %}">
+        {% if evaluation_status %}
+          <i class="w3-text-green">
+            en curso
+          </i>
+        {% else %}
+          <i class="w3-text-red">
+            cerrada
+          </i>    
+        {% endif %}
+      </span>
     </b>
   </h1>
   <hr style="width:50px;border:5px solid red" class="w3-round">
@@ -48,46 +56,77 @@
 </div>
 
 <div class="w3-panel  w3-margin-bottom">
-  <ul class="w3-ul w3-light-grey w3-center w3-card-4">
+  <ul id="evaluators_list" class="w3-ul w3-light-grey w3-center w3-card-4">
     <li class="w3-dark-grey w3-xlarge w3-padding-32">Evaluadores <i class="fas fa-user-tie"></i> </li>
     {% for evaluator, status in allowed_evaluators %}
-      <li class="w3-padding-16">
-        {{ evaluator }}
-        {% if status == "done" %}
-          <i style="margin-left: 10px" class="presentado far fa-check-circle"></i>
-          <i class="presentado w3-small">
-            ya evaluó
-          </i>
-        {% elif status == "evaluating" %}
-          <i style="margin-left: 10px" class="fa fa-spinner fa-lg fa-spin"></i>
-          <i class="w3-small">
-            evaluando
-          </i>
-        {% else %}
-          <i style="margin-left: 10px" class="w3-large fas fa-times"></i>
-          <i class="w3-small">
-            aún no evalúa
-          </i>
-        {% endif %}
+      <li id="{{ evaluator }}" class="evaluator_item w3-padding-16">
+        <span class="evaluator_name">
+          {{ evaluator }}
+        </span>
+        <span class="evaluator_status {{status}}">
+          {% if status == "done" %}
+            <i style="margin-left: 10px" class="presentado far fa-check-circle"></i>
+            <i class="presentado w3-small">
+              ya evaluó
+            </i>
+          {% elif status == "evaluating" %}
+            <i style="margin-left: 10px" class="fa fa-spinner fa-lg fa-spin"></i>
+            <i class="w3-small">
+              evaluando
+            </i>
+          {% else %}
+            <i style="margin-left: 10px" class="w3-large fas fa-times"></i>
+            <i class="w3-small">
+              aún no evalúa
+            </i>
+          {% endif %}
+        </span>
       </li>
     {% endfor %}
-    <li class="opcion w3-padding-16"> Agregar otro <i style="margin-left: 10px" class="fas fa-user-plus"></i>
-    </li>
+    {% if user.is_staff %}
+      <li class="add_evaluator_trigger w3-padding-16"> Editar Lista <i style="margin-left: 10px" class="fas fa-pen"></i>
+      </li>
+    {% endif %}
   </ul>
 </div>
 
+{% if user.is_staff %}
+
+<!-- The Modal -->
+<div id="add_evaluator_modal" class="w3-modal">
+  <div class="w3-modal-content">
+    <div class="w3-container">
+      <span onclick='$("#add_evaluator_modal").hide();'
+      class="w3-button w3-display-topright">&times;</span>
+      <form method="POST">
+        {% csrf_token %}
+        {{ edit_evaluators_form }}
+        <button class="w3-button w3-xlarge w3-red w3-display-bottomright">
+          Aceptar
+        </button>
+      </form>
+    </div>
+  </div>
+</div> 
+
+{% endif %}
+
 <div class="w3-row-padding" style="margin-top:30px">
   <div class="w3-half w3-margin-bottom ">
-    <ul class="w3-ul w3-light-grey w3-center w3-card-4">
+    <ul id="group_member_list" class="w3-ul w3-light-grey w3-center w3-card-4">
       <li class="w3-dark-grey w3-xlarge w3-padding-32">Miembros del equipo <i class="fas fa-user-friends"></i></li>
       {% for student, status in group_members %}
-        <li class="w3-padding-16">
-          {{ student }}
+        <li class="group_member_item w3-padding-16">
+          <span class="group_member_name">
+            {{ student }}
+          </span>
           {% if status == "done" %}
-            <i class="presentado far fa-check-circle"></i>
-            <i class="presentado w3-small">
-              ya presentó
-            </i>
+            <span class="group_member_status {{status}}">
+              <i class="presentado far fa-check-circle"></i>
+              <i class="presentado w3-small">
+                ya presentó
+              </i>
+            </span>
           {% endif %}
         </li>
       {% endfor %}
@@ -95,33 +134,60 @@
   </div>
 
   <div class="w3-half w3-margin-bottom ">
-    <ul class="w3-ul w3-light-grey w3-center w3-card-4">
+    <ul id="presentators_list" class="w3-ul w3-light-grey w3-center w3-card-4">
       <li class="w3-dark-grey w3-xlarge w3-padding-32">Miembros que presentan <i class="fas fa-chalkboard-teacher"></i></li>
       {% for presentator in current_presentators %}
-        <li class="w3-padding-16">
-          {{ presentator }}
+        <li class="presentator_item w3-padding-16">
+          <span class="presentator_name">
+            {{ presentator }}
+          </span>
           <i style="margin-left: 10px" class="w3-large fas fa-times"></i>
         </li>
       {% endfor %}
-      <li class=" opcion w3-padding-16" id="mas"> Agregar otro <i style="margin-left: 10px" class="fas fa-user-plus"></i></li>
+
+      {% if user.is_staff %}
+        <li class="add_presentator_trigger w3-padding-16" id="mas"> 
+          Editar Lista
+          <i style="margin-left: 10px" class="fas fa-pen"></i>
+        </li>
+      {% endif %}
 
     </ul>
   </div>
 </div>
 
+{% if user.is_staff %}
+
+<!-- The Modal -->
+<div id="add_presentator_modal" class="w3-modal">
+  <div class="w3-modal-content">
+    <div class="w3-container">
+      <span onclick='$("#add_presentator_modal").hide();'
+      class="w3-button w3-display-topright">&times;</span>
+      <form method="POST">
+        {% csrf_token %}
+        {{ edit_presentators_form }}
+        <button class="w3-button w3-xlarge w3-red w3-display-bottomright">
+          Aceptar
+        </button>
+      </form>
+    </div>
+  </div>
+</div> 
+
+{% endif %}
+
 <div class="w3-container w3-center">
   <p>Seleccione el nivel de logro alcanzado por el grupo en cada ámbito</p>
 
-{% include "criterions.html" %}
-
-
-<div class="w3-panel w3-margin-bottom w3-card-4 w3-padding-16 w3-half w3-right" style="margin-right: 1.8%">
-  <span style="margin-left:21%"><i class="far fa-clock"></i> Hora final
-    <input class="w3-input w3-border w3-round" type="number" size="1" placeholder="15" style="width:15%; display:inline; margin-left: 10px"> : <input class="w3-input w3-border w3-round" style="width:15%; display:inline" type="number" placeholder="35"></span>
-</div>
-
+{% include "criterions/criterions.html" %}
+{% if user.is_staff %}
+  {% include "duration_sect.html" %}
+{% endif %}
 <div class="w3-panel w3-right w3-half">
   <button class="w3-button w3-xlarge w3-red" style="margin-left: 15%"> <i class="fas fa-envelope-open-text"></i> Entregar evaluación</button>
 </div>
+</div>
 
 {% endblock content %}
+

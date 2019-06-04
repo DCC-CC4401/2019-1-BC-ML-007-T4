@@ -1,10 +1,22 @@
 from django import forms
 import pandas as pd
 
+from .models import Presentation
+
+class EvaluationDurationForm(forms.Form):
+  duracion = forms.DecimalField(max_digits=3, widget=forms.NumberInput(attrs={
+                        'class' : "w3-input w3-border w3-round",
+                        'size'  : "1",
+                        'style' : "width:20%; display:inline; margin-left: 5%",
+                        'id'  : 'duration-input'
+    }))
+
 class EvaluationCriterionForm(forms.Form):
     '''
     Forma para elegir los niveles de logro de una rúbrica. Cada fila es una selección, donde se
-    elige el nivel de logro.
+    elige el niveltext = forms.CharField(max_length=50, widget=forms.Textarea())
+  col = forms.IntegerField()
+  row = forms.IntegerField() de logro.
     '''
     def __init__(self, *args, **kwargs):
         tabla_df = kwargs.pop('table') # Obtener la tabla
@@ -26,5 +38,17 @@ class CriterionWidg(forms.RadioSelect):
     '''
     Widget para mostrar un criterio y sus niveles de logro
     '''
-    template_name = 'select_criterion.html'
-    option_template_name = 'select_criterion_option.html'
+    template_name = 'criterions/select_criterion.html'
+    option_template_name = 'criterions/select_criterion_option.html'
+
+class EvaluatorsListForm(forms.ModelForm):
+
+    class Meta:
+        model = Presentation
+        fields = ["allowed_evaluators"]
+
+class PresentatorsListForm(forms.ModelForm):
+
+    class Meta:
+        model = Presentation
+        fields = ["presentators"]

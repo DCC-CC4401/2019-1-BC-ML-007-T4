@@ -10,6 +10,7 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.auth.decorators import login_required, permission_required
 
 from .models import Rubric
+from evaluations.models import Evaluation
 from .forms import RubricEntryForm, RubricAchForm, RubricNameForm, RubricDurationForm
 
 import pandas as pd
@@ -42,6 +43,29 @@ def newRubricView(request):
 				duration_min=5., duration_max=10.)
 	rubrica.save()
 	return redirect("rubrics:view", rubric_id=new_id)
+
+class RubricCopyView(PermissionRequiredMixin, LoginRequiredMixin, View):
+	'''
+	Vista responsable de crear una copia para la edición de una rúbrica asociada a una
+	evaluación dada
+	'''
+	permission_required = 'rubrics.add_rubric'
+	def post(self, request, rubric_id, eval_id):
+		rubrica = get_object_or_404(Rubric, pk=rubric_id)
+		name = "Rubrica {} de evaluacion {}".format(rubric_id, eval_id)
+		# Si ya hice esto antes, solo ver la rubrica
+		print(name, rubrica.name)
+		if name==rubrica.name:
+			return redirect("rubrics:view", rubric_id=rubric_id)
+		# Crear una copia con el nombre nuevo
+		rubrica_new = Rubric(name = name,
+					table=rubrica.table,
+					duration_min=rubrica.duration_min, duration_max=rubrica.duration_max)
+		rubrica_new.save()
+		# Reasignar la rubrica de esta evaluación a la neuva rubrica
+		Evaluation.objects.filter(pk=eval_id).update(rubric=rubrica_new)
+
+		return redirect("rubrics:view", rubric_id=rubrica_new.id)
 
 class RubricView(LoginRequiredMixin, View):
 
